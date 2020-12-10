@@ -1,0 +1,42 @@
+body {
+  background-image: url("./liquor1.jpg");
+  background-color: rgba(46, 46, 46, 0.8);
+  background-size: cover;
+}
+
+h1 {
+  text-align: center;
+  font-family: "Monotype Corsiva";
+  font-size: 48px;
+  color: aquamarine;
+  background-color: rgba(46, 46, 46, 0.8);
+  animation-name: loading;
+  animation-duration: 2s;
+}
+
+#wantThis {
+  width: 30%;
+  animation-name: loading;
+  animation-duration: 2s;
+}
+
+#block,
+#searchResult {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#list1,
+#list2 {
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+  margin-top: 2%;
+  margin-left: 1%;
+  padding: 3%;
+  background-color: rgb(125, 207, 250, 0.8);
+  border-radius: 50% 20% / 10% 40%;
+  animation-name: loading;
+  animation-duration: 2s;
+}
