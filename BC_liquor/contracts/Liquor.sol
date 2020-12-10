@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.8.0;
 
-import "../node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
+import "../openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
 
 contract Liquor is ERC721 {
     struct Liquor {
