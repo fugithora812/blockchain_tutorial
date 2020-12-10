@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.8.0;
 
-import "../openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
+import "../node_module/openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
 
-contract Liquor is ERC721 {
+contract Liquor is ERC721Full {
     struct Liquor {
         uint256 tokenId;
         string liquorName;
@@ -18,7 +18,7 @@ contract Liquor is ERC721 {
     Liquor[] private liquorCollection;
     address private _contractCreator;
 
-    constructor() public ERC721("Liquor", "LIQ") {
+    constructor() public ERC721Full("Liquor", "LIQ") {
         _contractCreator = msg.sender;
     }
 }
