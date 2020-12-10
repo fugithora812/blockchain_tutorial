@@ -21,4 +21,26 @@ contract Liquor is ERC721Full {
     constructor() public ERC721Full("Liquor", "LIQ") {
         _contractCreator = msg.sender;
     }
+
+    function fetchLiquorData(uint256 _tokenId) public view {
+        return liquorCollection[_tokenId];
+    }
+
+    function getAllData() public view {
+        return liquorCollection;
+    }
+
+    function changeBlock(uint256 _tokenId) external {
+        uint256 newTokenId = liquorCollection.length + 1;
+        super._mint(_contractCreator.newTokenId);
+        liquorCollection.push(
+            Liquor(
+                newTokenId,
+                liquorCollection[_tokenId].liquorName,
+                false,
+                liquorCollection[_tokenId].liquorInfo.arrivalDay,
+                liquorCollection[_tokenId].liquorInfo.reserveScore
+            )
+        );
+    }
 }
