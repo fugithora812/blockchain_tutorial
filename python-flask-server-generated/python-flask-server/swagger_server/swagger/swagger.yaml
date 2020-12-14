@@ -8,7 +8,7 @@ basePath: "/api/v1"
 schemes:
   - "http"
 paths:
-  /records:
+  /liquors:
     get:
       summary: "酒類在庫取得API"
       operationId: "records_get"
@@ -19,32 +19,33 @@ paths:
           schema:
             $ref: "#/definitions/GetRecordsResponse"
       x-swagger-router-controller: "swagger_server.controllers.default_controller"
+
+  /liquors/{liquorName}:
+    get:
+      summary: "酒類在庫検索API"
+      parameters:
+        - in: "path"
+          name: "liquorName"
+          type: string
+          required: true
+      responses:
+        "200":
+          description: "OK"
+      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+
     post:
       summary: "酒類在庫取り置きAPI"
       operationId: "records_post"
       parameters:
-        - in: "body"
-          name: "body"
+        - in: "path"
+          name: "liquorName"
+          type: string
           required: true
-          schema:
-            $ref: "#/definitions/PostRecordsRequest"
       responses:
         "200":
           description: "OK"
       x-swagger-router-controller: "swagger_server.controllers.default_controller"
-    put:
-      summary: "酒類在庫検索API"
-      operationId: "records_put"
-      parameters:
-        - in: "body"
-          name: "body"
-          required: true
-          schema:
-            $ref: "#/definitions/PostRecordsRequest"
-      responses:
-        "200":
-          description: "OK"
-      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+
 definitions:
   PostRecordsRequest:
     type: "object"
@@ -55,6 +56,7 @@ definitions:
         type: "integer"
     xml:
       name: "Pet"
+
   GetRecordsResponse:
     type: "array"
     items:
