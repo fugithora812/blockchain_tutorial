@@ -7,12 +7,13 @@ contract Liquor is ERC721Full {
     struct Liquor {
         uint256 tokenId;
         string liquorName;
-        // struct LiquorInfo {
-        //   string sellerName;
-        //   bool isReservable;
-        //   string arrivalDay;
-        //   int reserveScore;
-        // }
+        mapping(uint256 => LiquorInfo) liquorInfo;
+    }
+    struct LiquorInfo {
+        string sellerName;
+        bool isReservable;
+        string arrivalDay;
+        int256 reserveScore;
     }
 
     Liquor[] private liquorCollection;
@@ -22,25 +23,29 @@ contract Liquor is ERC721Full {
         _contractCreator = msg.sender;
     }
 
-    function fetchLiquorData(uint256 _tokenId) public view {
+    function fetchLiquorData(uint256 _tokenId)
+        public
+        view
+        returns (Liquor memory)
+    {
         return liquorCollection[_tokenId];
     }
 
-    function getAllData() public view {
+    function getAllData() public view returns (Liquor[] memory) {
         return liquorCollection;
     }
 
-    function changeBlock(uint256 _tokenId) external {
+    function changeBlock(uint256 _tokenId) external returns (uint256) {
         uint256 newTokenId = liquorCollection.length + 1;
-        super._mint(_contractCreator.newTokenId);
+        super._mint(_contractCreator, newTokenId);
         liquorCollection.push(
             Liquor(
                 newTokenId,
                 liquorCollection[_tokenId].liquorName,
                 false,
-                liquorCollection[_tokenId].liquorInfo.arrivalDay,
-                liquorCollection[_tokenId].liquorInfo.reserveScore
+                liquorCollection[_tokenId].liquorInfo
             )
         );
+        return newTokenId;
     }
 }
