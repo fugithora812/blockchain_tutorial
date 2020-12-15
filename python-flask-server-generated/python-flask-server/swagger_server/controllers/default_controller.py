@@ -18,12 +18,12 @@ def records_get():  # noqa: E501
     return json.dumps(allData)
 
 
-def records_post(body):  # noqa: E501
+def liquors_reserve(path):  # noqa: E501
     """酒類取り置き依頼の処理API"""
     return liquorDao.updateStockOnDB(liquorName, sellerName)
 
 
-def records_put(searchWord):
+def liquors_search(liquorName):
     """酒類在庫検索API"""
     tokenId = liquorDao.fetchDataFromDB(searchWord)
     liquorData = liquorDao.fetchDataFromBC(tokenId)

@@ -11,7 +11,7 @@ paths:
   /liquors:
     get:
       summary: "酒類在庫取得API"
-      operationId: "records_get"
+      operationId: "liquors_get"
       parameters: []
       responses:
         "200":
@@ -23,6 +23,7 @@ paths:
   /liquors/{liquorName}:
     get:
       summary: "酒類在庫検索API"
+      operationId: "liquors_search"
       parameters:
         - in: "path"
           name: "liquorName"
@@ -35,7 +36,7 @@ paths:
 
     post:
       summary: "酒類在庫取り置きAPI"
-      operationId: "records_post"
+      operationId: "liquors_reserve"
       parameters:
         - in: "path"
           name: "liquorName"
