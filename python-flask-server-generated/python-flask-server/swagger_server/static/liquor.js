@@ -49,3 +49,9 @@ function reserveLiquor(liquorName) {
 
   });
 }
+
+// 取り置きダイアログ表示時のフェード処理
+function fade() {
+      var target = document.getElementById("fadeLayer");
+      target.style.visibility = "visible";
+    }
