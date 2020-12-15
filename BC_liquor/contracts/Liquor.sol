@@ -7,45 +7,78 @@ contract Liquor is ERC721Full {
     struct Liquor {
         uint256 tokenId;
         string liquorName;
-        mapping(uint256 => LiquorInfo) liquorInfo;
-    }
-    struct LiquorInfo {
         string sellerName;
         bool isReservable;
         string arrivalDay;
-        int256 reserveScore;
+        uint256 reserveScore;
     }
 
     Liquor[] private liquorCollection;
-    address private _contractCreator;
+    address private _contractOwner;
 
     constructor() public ERC721Full("Liquor", "LIQ") {
-        _contractCreator = msg.sender;
+        _contractOwner = msg.sender;
     }
 
-    function fetchLiquorData(uint256 _tokenId)
-        public
-        view
-        returns (Liquor memory)
-    {
-        return liquorCollection[_tokenId];
+    function fetchLiquor(uint256 _tokenId) public view returns (string) {
+        string liquor = "{liquorName:" +
+            liquorCollection[_tokenId].liquorName +
+            "sellerName:" +
+            liquorCollection[_tokenId].sellerName +
+            "isReservable:" +
+            liquorCollection[_tokenId].isReservable +
+            "arrivalDay:" +
+            liquorCollection[_tokenId].arrivalDay +
+            "reserveScore:" +
+            liquorCollection[_tokenId].reserveScore +
+            "}";
+        return liquor;
     }
 
-    function getAllData() public view returns (Liquor[] memory) {
-        return liquorCollection;
+    function fetchAllLiquors() public view returns (string[] memory) {
+        string[] memory liquors = new string[](liquorCollection.length);
+        for (int256 i = 0; i < liquorCollection.length; i++) {
+            liquors[i] =
+                "{liquorName:" +
+                liquorCollection[_tokenId].liquorName +
+                "sellerName:" +
+                liquorCollection[_tokenId].sellerName +
+                "isReservable:" +
+                liquorCollection[_tokenId].isReservable +
+                "arrivalDay:" +
+                liquorCollection[_tokenId].arrivalDay +
+                "reserveScore:" +
+                liquorCollection[_tokenId].reserveScore +
+                "}";
+        }
+        return liquors;
     }
 
-    function changeBlock(uint256 _tokenId) external returns (uint256) {
+    function updateReservability(uint256 _tokenId) external {
+        if (liquorCollection[_tokenId].isReservable == true) {
+            liquorCollection[_tokenId].isReservable = false;
+        } else {
+            liquorCollection[_tokenId].isReservable = true;
+        }
+    }
+
+    function addBlockToRegister(
+        string liquorName,
+        string sellerName,
+        bool isReservable,
+        string arrivalDay,
+        uint256 reserveScore
+    ) public {
         uint256 newTokenId = liquorCollection.length + 1;
-        super._mint(_contractCreator, newTokenId);
         liquorCollection.push(
             Liquor(
                 newTokenId,
-                liquorCollection[_tokenId].liquorName,
-                false,
-                liquorCollection[_tokenId].liquorInfo
+                liquorName,
+                sellerName,
+                isReservable,
+                arrivalDay,
+                reserveScore
             )
         );
-        return newTokenId;
     }
 }
