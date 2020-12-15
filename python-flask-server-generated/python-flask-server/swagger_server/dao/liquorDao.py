@@ -34,13 +34,12 @@ class liquorDao:
         stockQuery = session.query(liquor_table)
         stock_update = stockQuery.filter(
             liquor_table.LIQUOR_NAME == liquorName, liquor_table.SELLER_NAME == sellerName)
-        stock_update.STOCK_QUANTITY -= 1
 
-        if stock_update.STOCK_QUANTITY < 0:
+        if stock_update.STOCK_QUANTITY - 1 < 0:
             updateReservabilityOnBC(stock_update.TOKEN_ID)
             return False
 
-        elif stock_update.STOCK_QUANTITY == 0:
+        elif stock_update.STOCK_QUANTITY - 1 == 0:
             updateReservabilityOnBC(stock_update.TOKEN_ID)
             return True
 
