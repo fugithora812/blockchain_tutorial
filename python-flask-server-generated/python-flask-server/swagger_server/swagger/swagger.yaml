@@ -18,8 +18,6 @@ paths:
           description: "OK"
           schema:
             $ref: "#/definitions/GetRecordsResponse"
-        "500":
-          description: "internal server error. never mind."
       x-swagger-router-controller: "controllers.default_controller"
 
   /liquors/search/{liquorName}:
