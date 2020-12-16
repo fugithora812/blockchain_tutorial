@@ -1,46 +1,53 @@
 from web3 import Web3
-import sqlite3
+# from flask_sqlalchemy import SQLAlchemy
+from dao import database, liquorModel
 import json
 
 
 class liquorDao:
     tokenId: int = 0
-    liquors = ""
+    userAccount = "0x8090796d9a4d93BdccAEABB86c40cEfF8F51de0b"
 
-    def getConnectionWithBC():
-        web3 = Web3(Web3.HttpProvider('http://localhost:7545'))
-        pathToAbi = "../../BC_liquor/build/contracts"
+    def fetchLiquorFromBC(tokenId: int) -> str:
+        web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
+        pathToAbi = "dao/Liquor.json"
 
         json_open = open(pathToAbi, "r")
         json_load = json.load(json_open)
 
         abi = json_load["abi"]
-        contractAddress = "0xD12Ca9AaCBeFb6baD4de5A0D84FD324AD034bf40"
+        contractAddress = "0x1e2489ebded5b3156817d5280b0ed700abbfe375"
         liquors = web3.eth.contract(address=contractAddress, abi=abi)
         json_open.close()
-
-    def fetchLiquorFromBC(tokenId: int) -> str:
-        getConnectionWithBC()
-        return liquors.methods.fetchLiquorData(tokenId).call()
+        return liquors.functions.fetchLiquor(tokenId).transact()
 
     def fetchTokenIdFromDB(liquorName: str) -> int:
-        return session.query(liquor_table.TOKEN_ID).filter(liquor_table.LIQUOR_NAME == liquorName)
+        return database.session.query(liquorModel.liquor_table.TOKEN_ID).filter(liquorModel.LIQUOR_NAME == liquorName)
 
     def fetchAllLiquorsFromBC() -> str:
-        getConnectionWithBC()
-        return liquors.methods.fetchAllLiquors().call()
+        web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
+        pathToAbi = "dao/Liquor.json"
+
+        json_open = open(pathToAbi, "r")
+        json_load = json.load(json_open)
+
+        abi = json_load["abi"]
+        contractAddress = "0x1e2489ebded5b3156817d5280b0ed700abbfe375"
+        liquors = web3.eth.contract(address=contractAddress, abi=abi)
+        json_open.close()
+        return liquors.functions.fetchAllLiquors().transact()
 
     def updateStockOnDB(liquorName: str, sellerName: str) -> bool:
-        stockQuery = session.query(liquor_table)
+        stockQuery = database.session.query(liquorModel)
         stock_update = stockQuery.filter(
-            liquor_table.LIQUOR_NAME == liquorName, liquor_table.SELLER_NAME == sellerName)
+            liquorModel.LIQUOR_NAME == liquorName, liquorModel.SELLER_NAME == sellerName)
 
         if stock_update.STOCK_QUANTITY - 1 < 0:
-            updateReservabilityOnBC(stock_update.TOKEN_ID)
+            liquorDao.updateReservabilityOnBC(stock_update.TOKEN_ID)
             return False
 
         elif stock_update.STOCK_QUANTITY - 1 == 0:
-            updateReservabilityOnBC(stock_update.TOKEN_ID)
+            liquorDao.updateReservabilityOnBC(stock_update.TOKEN_ID)
             return True
 
         else:
@@ -49,15 +56,36 @@ class liquorDao:
         return False
 
     def updateReservabilityOnBC(tokenId: int) -> int:
-        getConnectionWithBC()
-        return liquors.methods.updateReservability(tokenId).call()
+        web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
+        pathToAbi = "dao/Liquor.json"
+
+        json_open = open(pathToAbi, "r")
+        json_load = json.load(json_open)
+
+        abi = json_load["abi"]
+        contractAddress = "0x1e2489ebded5b3156817d5280b0ed700abbfe375"
+        liquors = web3.eth.contract(address=contractAddress, abi=abi)
+        json_open.close()
+        return liquors.functions.updateReservability(tokenId).transact()
 
     def addLiquor(liquorName: str, sellerName: str, isReservable: bool, arrivalDay: str, reserveScore: str):
-        getConnectionWithBC()
-        liquors.methods.addBlockToRegister(
-            liquorName, sellerName, isReservable, arrivalDay, reserveScore).call()
+        web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
+        pathToAbi = "dao/Liquor.json"
+
+        json_open = open(pathToAbi, "r")
+        json_load = json.load(json_open)
+
+        abi = json_load["abi"]
+        contractAddress = "0x1e2489ebded5b3156817d5280b0ed700abbfe375"
+        liquors = web3.eth.contract(address=contractAddress, abi=abi)
+        json_open.close()
+        liquors.functions.addBlockToRegister(
+            liquorName, sellerName, isReservable, arrivalDay, reserveScore).transact()
 
         # STOCK_QUANTITYのマジックナンバーは変える必要がある
-        tokenId += 1
-        insertLiquor = insert(liquor_table).values(
-            LIQUOR_NAME=liquorName, SELLER_NAME=sellerName, STOCK_QUANTITY=1, TOKEN_ID=tokenId)
+        liquorDao.tokenId += 1
+        newLiquor = liquorModel.Liquor()
+        newLiquor.LIQUOR_NAME = liquorName
+        newLiquor.SELLER_NAME = sellerName
+        newLiquor.STOCK_QUANTITY = 1
+        newLiquor.TOKEN_ID = liquorDao.tokenId

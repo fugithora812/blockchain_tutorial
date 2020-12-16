@@ -18,9 +18,11 @@ paths:
           description: "OK"
           schema:
             $ref: "#/definitions/GetRecordsResponse"
+        "500":
+          description: "internal server error. never mind."
       x-swagger-router-controller: "controllers.default_controller"
 
-  /liquors/{liquorName}:
+  /liquors/search/{liquorName}:
     get:
       summary: "酒類在庫検索API"
       operationId: "liquors_search"
