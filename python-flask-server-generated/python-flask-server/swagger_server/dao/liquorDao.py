@@ -51,3 +51,8 @@ class liquorDao:
     def updateReservabilityOnBC(tokenId: int) -> int:
         getConnectionWithBC()
         return liquors.methods.updateReservability(tokenId).call()
+
+    def addLiquor(string liquorName, string sellerName, bool isReservable, string arrivalDay, string reserveScore):
+        getConnectionWithBC()
+        liquors.methods.addBlockToRegister(
+            liquorName, sellerName, isReservable, arrivalDay, reserveScore).call()
