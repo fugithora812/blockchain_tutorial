@@ -11,13 +11,14 @@ import dao.liquorDao
 # APIへのgetリクエスト時の処理
 
 
-def records_get():  # noqa: E501
+def liquors_get():  # noqa: E501
     """酒類在庫取得API"""
     # 本番では消す必要がある
-    liquorDao.addLiquor("sake", "ore", true, "2020/12/16", "1")
+    # liquorDao.addLiquor("sake", "ore", true, "2020/12/16", "1")
 
-    allData = liquorDao.getAllDataFromBC()
-    return json.dumps(allData)
+    # allData = liquorDao.getAllDataFromBC()
+    # return json.dumps(allData)
+    return "hello"
 
 
 def liquors_reserve(path):  # noqa: E501

@@ -27,8 +27,8 @@ h1 {
   align-items: center;
 }
 
-#list1,
-#list2 {
+#newArrive,
+#ranking {
   justify-content: center;
   align-items: center;
   width: 40%;

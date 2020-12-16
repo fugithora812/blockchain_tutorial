@@ -18,7 +18,7 @@ paths:
           description: "OK"
           schema:
             $ref: "#/definitions/GetRecordsResponse"
-      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+      x-swagger-router-controller: "controllers.default_controller"
 
   /liquors/{liquorName}:
     get:
@@ -32,7 +32,7 @@ paths:
       responses:
         "200":
           description: "OK"
-      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+      x-swagger-router-controller: "controllers.default_controller"
 
     post:
       summary: "酒類在庫取り置きAPI"
@@ -45,7 +45,7 @@ paths:
       responses:
         "200":
           description: "OK"
-      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+      x-swagger-router-controller: "controllers.default_controller"
 
 definitions:
   PostRecordsRequest:

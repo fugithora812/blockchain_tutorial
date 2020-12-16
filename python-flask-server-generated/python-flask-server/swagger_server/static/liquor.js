@@ -64,4 +64,4 @@ function fade() {
 }
 
 
-getNewLiquors();
+window.onload = getNewLiquors;

@@ -26,7 +26,7 @@ class liquorDao:
     def fetchTokenIdFromDB(liquorName: str) -> int:
         return session.query(liquor_table.TOKEN_ID).filter(liquor_table.LIQUOR_NAME == liquorName)
 
-    def fetchAllLiquorsFromBC() -> str[]:
+    def fetchAllLiquorsFromBC() -> str:
         getConnectionWithBC()
         return liquors.methods.fetchAllLiquors().call()
 
@@ -52,7 +52,7 @@ class liquorDao:
         getConnectionWithBC()
         return liquors.methods.updateReservability(tokenId).call()
 
-    def addLiquor(string liquorName, string sellerName, bool isReservable, string arrivalDay, string reserveScore):
+    def addLiquor(liquorName: str, sellerName: str, isReservable: bool, arrivalDay: str, reserveScore: str):
         getConnectionWithBC()
         liquors.methods.addBlockToRegister(
             liquorName, sellerName, isReservable, arrivalDay, reserveScore).call()
