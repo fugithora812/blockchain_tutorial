@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import requests
 import os
+import connexion
 # from controllers import default_controller
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Integer, String
@@ -24,6 +25,11 @@ STOCK_QUANTITY = database.Column(Integer)
 TOKEN_ID = database.Column(Integer)
 
 database.create_all()
+
+# API起動
+apiServe = connexion.App(__name__, specification_dir="swagger/")
+apiServe.add_api("swagger.yaml")
+apiServe.run(port=8080)
 
 
 @app.route("/", methods=['get'])
