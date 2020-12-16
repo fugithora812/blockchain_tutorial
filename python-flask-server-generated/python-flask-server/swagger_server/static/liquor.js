@@ -61,4 +61,7 @@ function reserveLiquor(liquorName) {
 function fade() {
       var target = document.getElementById("fadeLayer");
       target.style.visibility = "visible";
-    }
+}
+
+
+getNewLiquors();
