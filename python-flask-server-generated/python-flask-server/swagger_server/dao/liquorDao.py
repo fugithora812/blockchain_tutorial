@@ -56,3 +56,8 @@ class liquorDao:
         getConnectionWithBC()
         liquors.methods.addBlockToRegister(
             liquorName, sellerName, isReservable, arrivalDay, reserveScore).call()
+
+        # STOCK_QUANTITYのマジックナンバーは変える必要がある
+        tokenId += 1
+        insertLiquor = insert(liquor_table).values(
+            LIQUOR_NAME=liquorName, SELLER_NAME=sellerName, STOCK_QUANTITY=1, TOKEN_ID=tokenId)
