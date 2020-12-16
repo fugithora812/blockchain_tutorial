@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.8.0;
+pragma experimental ABIEncoderV2;
 
 import "../node_module/openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
 
@@ -10,7 +11,7 @@ contract Liquor is ERC721Full {
         string sellerName;
         bool isReservable;
         string arrivalDay;
-        uint256 reserveScore;
+        string reserveScore;
     }
 
     Liquor[] private liquorCollection;
@@ -20,42 +21,42 @@ contract Liquor is ERC721Full {
         _contractOwner = msg.sender;
     }
 
-    // function fetchLiquor(uint256 _tokenId) public view returns (string memory) {
-    //     string memory liquor = strConnect(
-    //         "{liquorName:",
-    //         liquorCollection[_tokenId].liquorName,
-    //         "sellerName:",
-    //         liquorCollection[_tokenId].sellerName,
-    //         "isReservable:",
-    //         liquorCollection[_tokenId].isReservable,
-    //         "arrivalDay:",
-    //         liquorCollection[_tokenId].arrivalDay,
-    //         "reserveScore:",
-    //         liquorCollection[_tokenId].reserveScore,
-    //         "}"
-    //     );
-    //     return liquor;
-    // }
+    function fetchLiquor(uint256 _tokenId) public returns (string memory) {
+        string memory liquor = strConnect(
+            "{liquorName:",
+            liquorCollection[_tokenId].liquorName,
+            "sellerName:",
+            liquorCollection[_tokenId].sellerName,
+            "isReservable:",
+            boolToString(liquorCollection[_tokenId].isReservable),
+            "arrivalDay:",
+            liquorCollection[_tokenId].arrivalDay,
+            "reserveScore:",
+            liquorCollection[_tokenId].reserveScore,
+            "}"
+        );
+        return liquor;
+    }
 
-    // function fetchAllLiquors() public view returns (string[] memory) {
-    //     string[] memory liquors = new string[](liquorCollection.length);
-    //     for (int256 i = 0; i < liquorCollection.length; i++) {
-    //         liquors[i] = strConnect(
-    //             "{liquorName:",
-    //             liquorCollection[i].liquorName,
-    //             "sellerName:",
-    //             liquorCollection[i].sellerName,
-    //             "isReservable:",
-    //             liquorCollection[i].isReservable,
-    //             "arrivalDay:",
-    //             liquorCollection[i].arrivalDay,
-    //             "reserveScore:",
-    //             uintToString(liquorCollection[i].reserveScore),
-    //             "}"
-    //         );
-    //     }
-    //     return liquors;
-    // }
+    function fetchAllLiquors() public returns (string[] memory) {
+        string[] memory liquors = new string[](liquorCollection.length);
+        for (uint256 i = 0; i < liquorCollection.length; i++) {
+            liquors[i] = strConnect(
+                "{liquorName:",
+                liquorCollection[i].liquorName,
+                "sellerName:",
+                liquorCollection[i].sellerName,
+                "isReservable:",
+                boolToString(liquorCollection[i].isReservable),
+                "arrivalDay:",
+                liquorCollection[i].arrivalDay,
+                "reserveScore:",
+                liquorCollection[i].reserveScore,
+                "}"
+            );
+        }
+        return liquors;
+    }
 
     function updateReservability(uint256 _tokenId) external {
         if (liquorCollection[_tokenId].isReservable == true) {
@@ -70,7 +71,7 @@ contract Liquor is ERC721Full {
         string memory sellerName,
         bool isReservable,
         string memory arrivalDay,
-        uint256 reserveScore
+        string memory reserveScore
     ) public {
         uint256 newTokenId = liquorCollection.length + 1;
         liquorCollection.push(
@@ -85,7 +86,7 @@ contract Liquor is ERC721Full {
         );
     }
 
-    // 文字列を結合する
+    // 文字列11個を結合する
     function strConnect(
         string memory str1,
         string memory str2,
@@ -162,15 +163,28 @@ contract Liquor is ERC721Full {
         return string(str);
     }
 
+    // boolをstringに変換する
+    function boolToString(bool boolean) internal returns (string memory) {
+        if (boolean == true) {
+            return "true";
+        } else {
+            return "false";
+        }
+    }
+
     //uint から string へ変換
     // function uintToString(uint256 v) returns (string memory) {
     //     uint256 maxlength = 100;
-    //     bytes memory reversed = new bytes(maxlength);
+    //     bytes reversed = new bytes(maxlength);
     //     uint256 i = 0;
     //     while (v != 0) {
+    //         // 1の位を取り出し
     //         uint256 remainder = v % 10;
+
+    //         // 位を一桁左にシフト
     //         v = v / 10;
-    //         reversed[i++] = bytes1(48 + remainder);
+
+    //         reversed[i++] = bytes(48 + remainder);
     //     }
     //     bytes memory s = new bytes(i + 1);
     //     for (uint256 j = 0; j <= i; j++) {
