@@ -16515,12 +16515,13 @@
         }
       },
       "links": {},
-      "address": "0xD12Ca9AaCBeFb6baD4de5A0D84FD324AD034bf40",
-      "transactionHash": "0xf35b44d4b8b87b6730fd3e12ddcf41cd69c64e97c0cdeebb1b8d93199658f5fb"
+      "address": "0x1E2489ebDED5b3156817D5280B0eD700abBfE375",
+      "transactionHash": "0xe2b73937d3c4aa014dd44bc4276d1ffd2821aa990e606df58cf1c926a3960bd8"
     }
   },
   "schemaVersion": "3.3.2",
-  "updatedAt": "2020-12-16T00:45:20.795Z",
+  "updatedAt": "2020-12-16T00:56:38.648Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {
       "approve(address,uint256)": {
