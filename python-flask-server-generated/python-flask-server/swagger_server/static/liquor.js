@@ -9,7 +9,14 @@ function getNewLiquors() {
     return liquors.json();
   }).then(function (json) {
     // データ読み出し、表示
+    let displayQuantity = 3;
+    for (let i = 0; i < displayQuantity; i++) {
+      let newLiquor = json[i].liquorName;
+      let arriveDateString = json[i].arrivalDay;
 
+      let displayLiquor = document.getElementById("newArrive");
+      displayLiquor.innerHTML = `<a href="javascript:void(0);" onclick="fade();">${newLiquor} 入荷日：${arriveDateString}</a>`
+    }
   });
 }
 
