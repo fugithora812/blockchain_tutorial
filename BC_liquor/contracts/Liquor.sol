@@ -22,40 +22,51 @@ contract Liquor is ERC721Full {
     }
 
     function fetchLiquor(uint256 _tokenId) public returns (string memory) {
-        string memory liquor = strConnect(
-            "{liquorName:",
-            liquorCollection[_tokenId].liquorName,
-            "sellerName:",
-            liquorCollection[_tokenId].sellerName,
-            "isReservable:",
-            boolToString(liquorCollection[_tokenId].isReservable),
-            "arrivalDay:",
-            liquorCollection[_tokenId].arrivalDay,
-            "reserveScore:",
-            liquorCollection[_tokenId].reserveScore,
-            "}"
-        );
-        return liquor;
+        // string memory liquor = strConnect(
+        //     "{liquorName:",
+        //     liquorCollection[_tokenId].liquorName,
+        //     "sellerName:",
+        //     liquorCollection[_tokenId].sellerName,
+        //     "isReservable:",
+        //     boolToString(liquorCollection[_tokenId].isReservable),
+        //     "arrivalDay:",
+        //     liquorCollection[_tokenId].arrivalDay,
+        //     "reserveScore:",
+        //     liquorCollection[_tokenId].reserveScore,
+        //     "}"
+        // );
+
+        return "Hello, it's solidity.";
     }
 
-    function fetchAllLiquors() public returns (string[] memory) {
-        string[] memory liquors = new string[](liquorCollection.length);
-        for (uint256 i = 0; i < liquorCollection.length; i++) {
-            liquors[i] = strConnect(
-                "{liquorName:",
-                liquorCollection[i].liquorName,
-                "sellerName:",
-                liquorCollection[i].sellerName,
-                "isReservable:",
-                boolToString(liquorCollection[i].isReservable),
-                "arrivalDay:",
-                liquorCollection[i].arrivalDay,
-                "reserveScore:",
-                liquorCollection[i].reserveScore,
-                "}"
-            );
-        }
-        return liquors;
+    function fetchAllLiquors() public returns (string memory) {
+        // string[] memory liquors = new string[](liquorCollection.length);
+        // for (uint256 i = 0; i < liquorCollection.length; i++) {
+        //     liquors[i] = strConnect(
+        //         "{liquorName:",
+        //         liquorCollection[i].liquorName,
+        //         "sellerName:",
+        //         liquorCollection[i].sellerName,
+        //         "isReservable:",
+        //         boolToString(liquorCollection[i].isReservable),
+        //         "arrivalDay:",
+        //         liquorCollection[i].arrivalDay,
+        //         "reserveScore:",
+        //         liquorCollection[i].reserveScore,
+        //         "}"
+        //     );
+        // }
+        // return liquors;
+
+        // string[] memory liquor = new string[](5);
+        // liquor[0] = liquorCollection[0].liquorName;
+        // liquor[1] = liquorCollection[0].sellerName;
+        // liquor[2] = boolToString(liquorCollection[0].isReservable);
+        // liquor[3] = liquorCollection[0].arrivalDay;
+        // liquor[4] = liquorCollection[0].reserveScore;
+        // return liquor;
+
+        return "Hello, it's solidity.";
     }
 
     function updateReservability(uint256 _tokenId) external {
