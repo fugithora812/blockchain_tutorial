@@ -6,7 +6,8 @@ import json
 
 class liquorDao:
     tokenId: int = 0
-    userAccount = "0x8090796d9a4d93BdccAEABB86c40cEfF8F51de0b"
+    userAccount: str = "0x8090796d9a4d93BdccAEABB86c40cEfF8F51de0b"
+    contractAddress: str = "0x1E2489ebDED5b3156817D5280B0eD700abBfE375"
 
     def fetchLiquorFromBC(tokenId: int) -> str:
         web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
@@ -16,8 +17,7 @@ class liquorDao:
         json_load = json.load(json_open)
 
         abi = json_load["abi"]
-        contractAddress = "0x1E2489ebDED5b3156817D5280B0eD700abBfE375"
-        liquors = web3.eth.contract(address=contractAddress, abi=abi)
+        liquors = web3.eth.contract(address=liquorDao.contractAddress, abi=abi)
         json_open.close()
         return liquors.functions.fetchLiquor(tokenId).transact()
 
@@ -32,8 +32,7 @@ class liquorDao:
         json_load = json.load(json_open)
 
         abi = json_load["abi"]
-        contractAddress = "0x1E2489ebDED5b3156817D5280B0eD700abBfE375"
-        liquors = web3.eth.contract(address=contractAddress, abi=abi)
+        liquors = web3.eth.contract(address=liquorDao.contractAddress, abi=abi)
         json_open.close()
         return liquors.functions.fetchAllLiquors().transact()
 
@@ -63,8 +62,7 @@ class liquorDao:
         json_load = json.load(json_open)
 
         abi = json_load["abi"]
-        contractAddress = "0x1E2489ebDED5b3156817D5280B0eD700abBfE375"
-        liquors = web3.eth.contract(address=contractAddress, abi=abi)
+        liquors = web3.eth.contract(address=liquorDao.contractAddress, abi=abi)
         json_open.close()
         return liquors.functions.updateReservability(tokenId).transact()
 
@@ -76,8 +74,7 @@ class liquorDao:
         json_load = json.load(json_open)
 
         abi = json_load["abi"]
-        contractAddress = "0x1E2489ebDED5b3156817D5280B0eD700abBfE375"
-        liquors = web3.eth.contract(address=contractAddress, abi=abi)
+        liquors = web3.eth.contract(address=liquorDao.contractAddress, abi=abi)
         json_open.close()
         liquors.functions.addBlockToRegister(
             liquorName, sellerName, isReservable, arrivalDay, reserveScore).transact()
