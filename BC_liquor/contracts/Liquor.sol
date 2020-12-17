@@ -110,7 +110,7 @@ contract Liquor is ERC721Full {
         string memory str9,
         string memory str10,
         string memory str11
-    ) public returns (string memory) {
+    ) internal pure returns (string memory) {
         bytes memory strbyte1 = bytes(str1);
         bytes memory strbyte2 = bytes(str2);
         bytes memory strbyte3 = bytes(str3);
@@ -175,7 +175,7 @@ contract Liquor is ERC721Full {
     }
 
     // boolをstringに変換する
-    function boolToString(bool boolean) internal returns (string memory) {
+    function boolToString(bool boolean) internal pure returns (string memory) {
         if (boolean == true) {
             return "true";
         } else {
