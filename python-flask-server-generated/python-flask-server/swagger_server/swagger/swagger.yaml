@@ -18,6 +18,55 @@ paths:
           description: "OK"
           schema:
             $ref: "#/definitions/GetRecordsResponse"
+        "500":
+          description: "never mind"
+      x-swagger-router-controller: "controllers.default_controller"
+
+  /liquors/add:
+    # ToDo:追加機能実装の際はpostに変える
+    get:
+      summary: "酒類在庫追加API"
+      operationId: "liquors_add"
+      parameters:
+        [
+          {
+            name: "liquorName",
+            in: "query",
+            description: "liquor's name",
+            type: "string",
+          },
+          {
+            name: "sellerName",
+            in: "query",
+            description: "seller's name",
+            type: "string",
+          },
+          {
+            name: "isReservable",
+            in: "query",
+            description: "reservable or not",
+            type: "string",
+          },
+          {
+            name: "arrivalDay",
+            in: "query",
+            description: "ariival date",
+            type: "string",
+          },
+          {
+            name: "reserveScore",
+            in: "query",
+            description: "number of reservation",
+            type: "string",
+          },
+        ]
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "boolean"
+        "500":
+          description: "never mind"
       x-swagger-router-controller: "controllers.default_controller"
 
   /liquors/search/{liquorName}:
@@ -59,6 +108,25 @@ definitions:
       name: "Pet"
 
   GetRecordsResponse:
-    type: "array"
-    items:
-      type: "integer"
+    type: "boolean"
+    # items:
+    #   type: "object"
+    #   properties:
+    #     liquorCollection:
+    #       type: "string"
+    #       example: "sake"
+    # liquorName:
+    #   type: "string"
+    #   example: "sake"
+    # sellerName:
+    #   type: "string"
+    #   example: "ivis"
+    # isReservable:
+    #   type: "string"
+    #   example: "false"
+    # arrivalDay:
+    #   type: "string"
+    #   example: "2020/12/25"
+    # reserveScore:
+    #   type: "string"
+    #   example: "1"

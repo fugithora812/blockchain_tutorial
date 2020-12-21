@@ -6,20 +6,22 @@ import json
 
 class liquorDao:
     tokenId: int = 0
-    userAccount: str = "0x8090796d9a4d93BdccAEABB86c40cEfF8F51de0b"
-    contractAddress: str = "0x1E2489ebDED5b3156817D5280B0eD700abBfE375"
+    userAccount: str = "0x8Ba7395Ae73799EA3233eFb0dd423542016ee05C"
+    contractAddress: str = "0x93e27defa85Ad9941a6747167c55E61b9E8Ae024"
 
     def fetchLiquorFromBC(tokenId: int) -> str:
-        web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
-        pathToAbi = "dao/Liquor.json"
+        # web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
+        # pathToAbi = "dao/Liquor.json"
 
-        json_open = open(pathToAbi, "r")
-        json_load = json.load(json_open)
+        # json_open = open(pathToAbi, "r")
+        # json_load = json.load(json_open)
 
-        abi = json_load["abi"]
-        liquors = web3.eth.contract(address=liquorDao.contractAddress, abi=abi)
-        json_open.close()
-        return liquors.functions.fetchLiquor(tokenId).transact()
+        # abi = json_load["abi"]
+        # liquors = web3.eth.contract(address=liquorDao.contractAddress, abi=abi)
+        # json_open.close()
+        # return json.dump(liquors.functions.fetchLiquor(tokenId).transact())
+
+        return "fetch ALL liquors from BC!"
 
     def fetchTokenIdFromDB(liquorName: str) -> int:
         return database.session.query(liquorModel.liquor_table.TOKEN_ID).filter(liquorModel.LIQUOR_NAME == liquorName)
@@ -34,7 +36,16 @@ class liquorDao:
         abi = json_load["abi"]
         liquors = web3.eth.contract(address=liquorDao.contractAddress, abi=abi)
         json_open.close()
-        return liquors.functions.fetchAllLiquors().transact()
+
+        # these are from https://web3py.readthedocs.io/en/latest/overview.html#contracts
+        # tx_hash = liquors.constructor().transact()
+        # tx_receipt = web3.eth.waitForTransactionReceipt(tx_hash)
+        # tx_receipt.contractAddress
+        # deployed_contract = web3.eth.contract(address=tx_receipt.contractAddress, abi=abi)
+        # return deployed_contract.functions.fetchAllLiquors().call()
+
+        # return json.dump(liquors.functions.fetchAllLiquors().transact())
+        return liquors.functions.fetchAllLiquors().call()
 
     def updateStockOnDB(liquorName: str, sellerName: str) -> bool:
         stockQuery = database.session.query(liquorModel)
@@ -66,7 +77,13 @@ class liquorDao:
         json_open.close()
         return liquors.functions.updateReservability(tokenId).transact()
 
-    def addLiquor(liquorName: str, sellerName: str, isReservable: bool, arrivalDay: str, reserveScore: str):
+    def addLiquor(liquorName: str, sellerName: str, isReservable: str, arrivalDay: str, reserveScore: str):
+        print(liquorName)
+        print(sellerName)
+        print(isReservable)
+        print(arrivalDay)
+        print(reserveScore)
+
         web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
         pathToAbi = "dao/Liquor.json"
 
@@ -77,12 +94,16 @@ class liquorDao:
         liquors = web3.eth.contract(address=liquorDao.contractAddress, abi=abi)
         json_open.close()
         liquors.functions.addBlockToRegister(
-            liquorName, sellerName, isReservable, arrivalDay, reserveScore).transact()
+            liquorName, sellerName, isReservable, arrivalDay, reserveScore).transact({"from": liquorDao.userAccount})
 
-        # STOCK_QUANTITYのマジックナンバーは変える必要がある
+        # liquors.constructor().transact()
+
+        # Todo: STOCK_QUANTITYのマジックナンバーは変える必要がある
         liquorDao.tokenId += 1
         newLiquor = liquorModel.Liquor()
         newLiquor.LIQUOR_NAME = liquorName
         newLiquor.SELLER_NAME = sellerName
         newLiquor.STOCK_QUANTITY = 1
         newLiquor.TOKEN_ID = liquorDao.tokenId
+
+        return True

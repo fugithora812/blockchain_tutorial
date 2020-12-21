@@ -1,5 +1,5 @@
 {
-  "contractName": "Liquor",
+"contractName": "Liquor",
   "abi": [
     {
       "inputs": [],
@@ -63,19 +63,19 @@
         {
           "indexed": true,
           "internalType": "address",
-          "name": "from",
+          "name": "_from",
           "type": "address"
         },
         {
           "indexed": true,
           "internalType": "address",
-          "name": "to",
+          "name": "_to",
           "type": "address"
         },
         {
           "indexed": true,
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "_tokenId",
           "type": "uint256"
         }
       ],
@@ -505,9 +505,9 @@
           "type": "string"
         },
         {
-          "internalType": "bool",
+          "internalType": "string",
           "name": "isReservable",
-          "type": "bool"
+          "type": "string"
         },
         {
           "internalType": "string",
@@ -522,79 +522,8 @@
       ],
       "name": "addBlockToRegister",
       "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "str1",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "str2",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "str3",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "str4",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "str5",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "str6",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "str7",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "str8",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "str9",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "str10",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "str11",
-          "type": "string"
-        }
-      ],
-      "name": "strConnect",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
+      "payable": true,
+      "stateMutability": "payable",
       "type": "function"
     }
   ]

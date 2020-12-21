@@ -14,12 +14,12 @@ import dao.liquorDao
 def liquors_get():  # noqa: E501
     """酒類在庫取得API"""
 
-    # 以下の2行は本番では消す必要がある
-    # dao.liquorDao.liquorDao.addLiquor("sake", "ore", True, "2020/12/16", "1")
-    print("hello")
-
     return dao.liquorDao.liquorDao.fetchAllLiquorsFromBC()
-    # return json.dumps(allData)
+
+
+def liquors_add(liquorName, sellerName, isReservable, arrivalDay, reserveScore):
+    return dao.liquorDao.liquorDao.addLiquor(liquorName, sellerName, isReservable, arrivalDay, reserveScore)
+    # return True
 
 
 def liquors_reserve(liquorName, sellerName):  # noqa: E501
