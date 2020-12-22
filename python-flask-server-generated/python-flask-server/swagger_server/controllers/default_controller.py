@@ -30,6 +30,6 @@ def liquors_reserve(liquorName, sellerName):  # noqa: E501
 def liquors_search(liquorName):
     """酒類在庫検索API"""
     tokenId = dao.liquorDao.liquorDao.fetchTokenIdFromDB(liquorName)
-    liquorData = dao.liquorDao.liquorDao.fetchLiuorFromBC(tokenId)
+    liquorData = dao.liquorDao.liquorDao.fetchLiquorFromBC(tokenId)
     # return json.dumps(liquorData)
     return liquorData

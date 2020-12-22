@@ -80,18 +80,24 @@ paths:
           description: "never mind"
       x-swagger-router-controller: "controllers.default_controller"
 
-  /liquors/search/{liquorName}:
+  /liquors/search:
     get:
       summary: "酒類在庫検索API"
       operationId: "liquors_search"
       parameters:
-        - in: "path"
-          name: "liquorName"
-          type: string
-          required: true
+        [
+          {
+            name: "liquorName",
+            in: "query",
+            description: "liquor's name",
+            type: "string",
+          },
+        ]
       responses:
         "200":
           description: "OK"
+          schema:
+            $ref: "#/definitions/GetRecordsResponse"
       x-swagger-router-controller: "controllers.default_controller"
 
     post:

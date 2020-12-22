@@ -28,20 +28,21 @@ contract Liquor is ERC721Full {
     }
 
     function fetchLiquor(uint256 _tokenId) public view returns (string memory) {
-        string memory liquor =
-            strConnect(
-                "{liquorName:",
-                liquorCollection[_tokenId].liquorName,
-                "sellerName:",
-                liquorCollection[_tokenId].sellerName,
-                "isReservable:",
-                liquorCollection[_tokenId].isReservable,
-                "arrivalDay:",
-                liquorCollection[_tokenId].arrivalDay,
-                "reserveScore:",
-                liquorCollection[_tokenId].reserveScore,
-                "}"
-            );
+        // string memory liquor =
+        //     strConnect(
+        //         "{liquorName:",
+        //         liquorCollection[_tokenId].liquorName,
+        //         "sellerName:",
+        //         liquorCollection[_tokenId].sellerName,
+        //         "isReservable:",
+        //         liquorCollection[_tokenId].isReservable,
+        //         "arrivalDay:",
+        //         liquorCollection[_tokenId].arrivalDay,
+        //         "reserveScore:",
+        //         liquorCollection[_tokenId].reserveScore,
+        //         "}"
+        //     );
+        string memory liquor = liquorCollection[_tokenId].liquorName;
         return liquor;
     }
 
