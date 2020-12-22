@@ -8,6 +8,17 @@ basePath: "/api/v1"
 schemes:
   - "http"
 paths:
+  # /:
+  #   get:
+  #     summary: "LIQUOR.COM"
+  #     responses:
+  #       "200":
+  #         description: "OK"
+  #         content: "text/html"
+  #         schema:
+  #           type: "object"
+  #     x-swagger-router-controller: "app"
+
   /liquors:
     get:
       summary: "酒類在庫取得API"
@@ -108,25 +119,20 @@ definitions:
       name: "Pet"
 
   GetRecordsResponse:
-    type: "boolean"
-    # items:
-    #   type: "object"
-    #   properties:
-    #     liquorCollection:
-    #       type: "string"
-    #       example: "sake"
-    # liquorName:
-    #   type: "string"
-    #   example: "sake"
-    # sellerName:
-    #   type: "string"
-    #   example: "ivis"
-    # isReservable:
-    #   type: "string"
-    #   example: "false"
-    # arrivalDay:
-    #   type: "string"
-    #   example: "2020/12/25"
-    # reserveScore:
-    #   type: "string"
-    #   example: "1"
+    type: "object"
+    properties:
+      liquorName:
+        type: "string"
+        example: "sake"
+      sellerName:
+        type: "string"
+        example: "ivis"
+      isReservable:
+        type: "string"
+        example: "false"
+      arrivalDay:
+        type: "string"
+        example: "2020/12/25"
+      reserveScore:
+        type: "string"
+        example: "1"

@@ -27,7 +27,7 @@ contract Liquor is ERC721Full {
         _contractOwner = msg.sender;
     }
 
-    function fetchLiquor(uint256 _tokenId) public returns (string memory) {
+    function fetchLiquor(uint256 _tokenId) public view returns (string memory) {
         string memory liquor =
             strConnect(
                 "{liquorName:",
@@ -42,29 +42,31 @@ contract Liquor is ERC721Full {
                 liquorCollection[_tokenId].reserveScore,
                 "}"
             );
-
         return liquor;
     }
 
-    function fetchAllLiquors() public view returns (bool) {
-        // string[] memory liquors = new string[](liquorCollection.length);
-        // for (uint256 i = 1; i < liquorCollection.length; i++) {
-        //     liquors[i] = strConnect(
-        //         "{liquorName:",
-        //         liquorCollection[i].liquorName,
-        //         "sellerName:",
-        //         liquorCollection[i].sellerName,
-        //         "isReservable:",
-        //         liquorCollection[i].isReservable,
-        //         "arrivalDay:",
-        //         liquorCollection[i].arrivalDay,
-        //         "reserveScore:",
-        //         liquorCollection[i].reserveScore,
-        //         "}"
-        //     );
-        // }
-        // return liquors[1];
-        return true;
+    function fetchAllLiquors() public view returns (string[] memory) {
+        uint256 liquorsLength = liquorCollection.length;
+        string[] memory liquors = new string[](liquorsLength);
+        uint256 contentNumber = 0;
+        for (uint256 i = 0; i < liquorsLength; i++) {
+            liquors[contentNumber] = liquorCollection[i].liquorName;
+            contentNumber = contentNumber + 1;
+
+            // liquors[contentNumber] = liquorCollection[i].sellerName;
+            // contentNumber = contentNumber + 1;
+
+            // liquors[contentNumber] = liquorCollection[i].isReservable;
+            // contentNumber = contentNumber + 1;
+
+            // liquors[contentNumber] = liquorCollection[i].arrivalDay;
+            // contentNumber = contentNumber + 1;
+
+            // liquors[contentNumber] = liquorCollection[i].reserveScore;
+            // contentNumber = contentNumber + 1;
+        }
+        return liquors;
+        // return true;
     }
 
     // ToDo: refactor updateReservability
@@ -83,7 +85,7 @@ contract Liquor is ERC721Full {
         string memory arrivalDay,
         string memory reserveScore
     ) public payable returns (bool) {
-        uint256 newTokenId = liquorCollection.length + 1;
+        uint256 newTokenId = liquorCollection.length;
         liquorCollection.push(
             Liquor(
                 newTokenId,
