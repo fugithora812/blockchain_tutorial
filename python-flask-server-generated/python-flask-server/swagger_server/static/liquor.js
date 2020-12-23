@@ -84,11 +84,11 @@ function reserveLiquor(liquorName) {
     if (bool[0] == "t") {
       reserveResult.innerHTML = `<p>SUCCESS</p>\
                                   <p>取り置き成功しました</p> \
-                                  <input type="button" id="noReserve" value="確認" onclick="backTop()">`;
+                                  <input type="button" id="success" value="確認" onclick="backTop()">`;
     } else {
       reserveResult.innerHTML = `<p>FAILED...</p>\
                                   <p>取り置き失敗しました</p> \
-                                  <input type="button" id="yesReserve" value="再試行" onclick="reserveLiquor('${liquorName}')">\
+                                  <input type="button" id="reservationFaild" value="再試行" onclick="reserveLiquor('${liquorName}')">\
                                   <input type="button" id="noReserve" value="キャンセル" onclick="backTop()">`;
     }
   });
