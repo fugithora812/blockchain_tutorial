@@ -63,7 +63,7 @@ function searchLiquor() {
     }
 
     let resultLiquor = document.getElementById("searchResult");
-    resultLiquor.innerHTML = `<div id="resultDiv">SEARCH RESULT<br><a href="javascript:void(0);" id="result" onclick="fade();"></a></div>`;
+    resultLiquor.innerHTML = `<div id="resultDiv">SEARCH RESULT<br><a href="javascript:void(0);" id="result" onclick="fadeResult();"></a></div>`;
 
     let liquor = document.getElementById("result");
     liquor.innerHTML += `${liquorName}`;
@@ -110,7 +110,7 @@ function fade(liquorNumber) {
 }
 
 // SEARCH RESULT用
-function fade() {
+function fadeResult() {
   let reservation = document.getElementById("fadeLayer");
   reservation.style.visibility = "visible";
 
