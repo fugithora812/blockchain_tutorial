@@ -1,30 +1,35 @@
-import json
-import connexion
-import six
+# import json
+# import connexion
+# import six
 
-from models.get_records_response import GetRecordsResponse  # noqa: E501
-from models.post_records_request import PostRecordsRequest  # noqa: E501
-import util
+# from models.get_records_response import GetRecordsResponse  # noqa: E501
+# from models.post_records_request import PostRecordsRequest  # noqa: E501
+# import util
 
 import dao.liquorDao
 
 # APIへのgetリクエスト時の処理
 
 
-def records_get():  # noqa: E501
+def liquors_get():  # noqa: E501
     """酒類在庫取得API"""
 
-    allData = liquorDao.getAllDataFromBC()
-    return json.dumps(allData)
+    return dao.liquorDao.liquorDao.fetchAllLiquorsFromBC()
 
 
-def liquors_reserve(path):  # noqa: E501
+def liquors_add(liquorName, sellerName, isReservable, arrivalDay, reserveScore):
+    return dao.liquorDao.liquorDao.addLiquor(liquorName, sellerName, isReservable, arrivalDay, reserveScore)
+    # return True
+
+
+def liquors_reserve(liquorName):  # noqa: E501
     """酒類取り置き依頼の処理API"""
-    return liquorDao.updateStockOnDB(liquorName, sellerName)
+    return dao.liquorDao.liquorDao.updateStockOnDB(liquorName)
 
 
 def liquors_search(liquorName):
     """酒類在庫検索API"""
-    tokenId = liquorDao.fetchDataFromDB(searchWord)
-    liquorData = liquorDao.fetchDataFromBC(tokenId)
-    return json.dumps(liquorData)
+    tokenId = dao.liquorDao.liquorDao.fetchTokenIdFromDB(liquorName)
+    liquorData = dao.liquorDao.liquorDao.fetchLiquorFromBC(tokenId)
+    # return json.dumps(liquorData)
+    return liquorData

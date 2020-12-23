@@ -10,7 +10,7 @@
     <h1>LIQUOR.COM</h1>
     <div id="block">
       <input type="text" id="wantThis">
-      <input type="button" id="search" value="SEARCH" onclick="letsSearch()">
+      <input type="button" id="search" value="SEARCH" onclick="searchLiquor()">
     </div>
 
     <!-- 検索結果を動的に表示する -->
@@ -18,10 +18,13 @@
 
     <!-- アクセス時に商品を表示 -->
     <div id="block">
-      <div id="list1">NEW ARRIVE</div>
-      <div id="list2">RANKING</div>
+      <div id="newArrive">
+        NEW ARRIVE
+        <div id="liquors"></div>
+      </div>
     </div>
-    <a href="javascript:void(0);" onclick="fade();">黒フェード</a>
+    <!-- <a href="javascript:void(0);" onclick="fade();">黒フェード</a> -->
     <div id="fadeLayer"></div>
+
   </body>
 </html>
