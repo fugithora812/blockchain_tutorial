@@ -1,14 +1,13 @@
 from web3 import Web3
 # from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
-from dao import database, liquorModel
 import json
 
 
 class liquorDao:
     tokenId: int = 0
-    userAccount: str = "0x53D68C2FD18Dca23fC9b904f52D5C65f5694b32e"
-    contractAddress: str = "0xAd835682B7063e88F108bfCB0DcE4f5160D839CF"
+    userAccount: str = "0x594E436186fdd4415bf38EC89692521DA24Ed552"
+    contractAddress: str = "0xD2476BC39B2F38c791b1a3D0E2F68Ad5988E71da"
 
     def fetchLiquorFromBC(searchId: int) -> str:
         web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
@@ -23,23 +22,18 @@ class liquorDao:
         return liquors.functions.fetchLiquor(searchId - 1).call()
 
     def fetchTokenIdFromDB(liquorName: str) -> int:
+        # DB接続
         engine = create_engine('sqlite:///app.db')
 
+        # クエリ発行
         liquorId = -1
-        # liquorIdstr = ""
         with engine.connect() as con:
             rows = con.execute("select TOKEN_ID from liquor_table where LIQUOR_NAME='{}'".format(liquorName))
             for row in rows:
                 liquorDict = dict(row)
                 liquorId = int(liquorDict['TOKEN_ID'])
 
-        # print(type(liquorIdstr))
-        # print(liquorIdstr)
-        # liquorId = int(liquorIdstr)
-
-        # return database.session.query(liquorModel.Liquor.liquor_table.TOKEN_ID).filter(liquorModel.LIQUOR_NAME == liquorName)
-
-        return liquorId
+        return liquorId + 1
 
     def fetchAllLiquorsFromBC():
         web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
@@ -79,20 +73,36 @@ class liquorDao:
         # return json.dumps(liquorDict)
         return liquors.functions.fetchAllLiquors().call()
 
-    def updateStockOnDB(liquorName: str, sellerName: str) -> bool:
-        stockQuery = database.session.query(liquorModel)
-        stock_update = stockQuery.filter(
-            liquorModel.LIQUOR_NAME == liquorName, liquorModel.SELLER_NAME == sellerName)
+    def updateStockOnDB(liquorName: str) -> bool:
+        # stockQuery = database.session.query(liquorModel)
+        # stock_update = stockQuery.filter(
+        #     liquorModel.LIQUOR_NAME == liquorName, liquorModel.SELLER_NAME == sellerName)
 
-        if stock_update.STOCK_QUANTITY - 1 < 0:
-            liquorDao.updateReservabilityOnBC(stock_update.TOKEN_ID)
+        # DB接続してクエリ発行
+        engine = create_engine('sqlite:///app.db')
+        stock_update = -1
+        liquorId = -1
+        with engine.connect() as con:
+            rows = con.execute("select TOKEN_ID, STOCK_QUANTITY from liquor_table where LIQUOR_NAME='{}'".format(liquorName))
+            for row in rows:
+                liquorDict = dict(row)
+                stock_update = int(liquorDict['STOCK_QUANTITY'])
+                liquorId = int(liquorDict['TOKEN_ID'])
+
+        print(stock_update)
+        if stock_update - 1 < 0:
+            liquorDao.updateReservabilityOnBC(liquorId)
             return False
 
-        elif stock_update.STOCK_QUANTITY - 1 == 0:
-            liquorDao.updateReservabilityOnBC(stock_update.TOKEN_ID)
-            return True
-
         else:
+            if stock_update - 1 == 0:
+                liquorDao.updateReservabilityOnBC(liquorId)
+
+            # ToDo: データベース更新処理実装
+            newQuantity = stock_update - 1
+            with engine.connect() as con:
+                rows = con.execute(f"update liquor_table set STOCK_QUANTITY={newQuantity} where LIQUOR_NAME='{liquorName}' and TOKEN_ID={liquorId}")
+
             return True
 
         return False
@@ -107,14 +117,14 @@ class liquorDao:
         abi = json_load["abi"]
         liquors = web3.eth.contract(address=liquorDao.contractAddress, abi=abi)
         json_open.close()
-        return liquors.functions.updateReservability(tokenId).transact()
+        return liquors.functions.updateReservability(tokenId).transact({"from": liquorDao.userAccount})
 
-    def addLiquor(liquorName: str, sellerName: str, isReservable: str, arrivalDay: str, reserveScore: str):
+    def addLiquor(liquorName: str, sellerName: str, isReservable: str, arrivalDay: str, stockQuantity: str):
         print(liquorName)
         print(sellerName)
         print(isReservable)
         print(arrivalDay)
-        print(reserveScore)
+        print(stockQuantity)
 
         web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
         pathToAbi = "dao/Liquor.json"
@@ -126,18 +136,19 @@ class liquorDao:
         liquors = web3.eth.contract(address=liquorDao.contractAddress, abi=abi)
         json_open.close()
         liquors.functions.addBlockToRegister(
-            liquorName, sellerName, isReservable, arrivalDay, reserveScore).transact({"from": liquorDao.userAccount})
+            liquorName, sellerName, isReservable, arrivalDay, stockQuantity).transact({"from": liquorDao.userAccount})
 
         engine = create_engine('sqlite:///app.db')
 
         # Todo: STOCK_QUANTITYのマジックナンバーは変える必要がある
         with engine.connect() as con:
+            # DB接続してクエリ発行
             # con.execute("create table liquor_table( \
             #     LIQUOR_NAME STRING primary_key, \
             #     SELLER_NAME STRING primary_key, \
             #     STOCK_QUANTITY INTEGER, \
             #     TOKEN_ID INTEGER)")
-            con.execute("insert into liquor_table values('{}', '{}', {}, {})".format(liquorName, sellerName, 1, liquorDao.tokenId))
+            con.execute("insert into liquor_table values('{}', '{}', {}, {})".format(liquorName, sellerName, stockQuantity, liquorDao.tokenId))
 
         liquorDao.tokenId += 1
         return True

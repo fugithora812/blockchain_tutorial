@@ -70,14 +70,13 @@ contract Liquor is ERC721Full {
         // return true;
     }
 
-    // ToDo: refactor updateReservability
-    // function updateReservability(uint256 _tokenId) external {
-    //     if (liquorCollection[_tokenId].isReservable == true) {
-    //         liquorCollection[_tokenId].isReservable = false;
-    //     } else {
-    //         liquorCollection[_tokenId].isReservable = true;
-    //     }
-    // }
+    function updateReservability(uint256 _tokenId) external {
+        if (stringToBool(liquorCollection[_tokenId].isReservable) == true) {
+            liquorCollection[_tokenId].isReservable = "true";
+        } else {
+            liquorCollection[_tokenId].isReservable = "false";
+        }
+    }
 
     function addBlockToRegister(
         string memory liquorName,

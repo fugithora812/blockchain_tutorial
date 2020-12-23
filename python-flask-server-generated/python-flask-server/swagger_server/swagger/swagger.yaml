@@ -8,17 +8,6 @@ basePath: "/api/v1"
 schemes:
   - "http"
 paths:
-  # /:
-  #   get:
-  #     summary: "LIQUOR.COM"
-  #     responses:
-  #       "200":
-  #         description: "OK"
-  #         content: "text/html"
-  #         schema:
-  #           type: "object"
-  #     x-swagger-router-controller: "app"
-
   /liquors:
     get:
       summary: "酒類在庫取得API"
@@ -100,17 +89,25 @@ paths:
             $ref: "#/definitions/GetRecordsResponse"
       x-swagger-router-controller: "controllers.default_controller"
 
-    post:
+  /liquors/reserve:
+    # ToDo: 本番運用ではpostに変える
+    get:
       summary: "酒類在庫取り置きAPI"
       operationId: "liquors_reserve"
       parameters:
-        - in: "path"
-          name: "liquorName"
-          type: string
-          required: true
+        [
+          {
+            name: "liquorName",
+            in: "query",
+            description: "liquor's name",
+            type: "string",
+          },
+        ]
       responses:
         "200":
           description: "OK"
+          schema:
+            type: "boolean"
       x-swagger-router-controller: "controllers.default_controller"
 
 definitions:

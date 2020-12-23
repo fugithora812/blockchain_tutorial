@@ -22,9 +22,9 @@ def liquors_add(liquorName, sellerName, isReservable, arrivalDay, reserveScore):
     # return True
 
 
-def liquors_reserve(liquorName, sellerName):  # noqa: E501
+def liquors_reserve(liquorName):  # noqa: E501
     """酒類取り置き依頼の処理API"""
-    return dao.liquorDao.liquorDao.updateStockOnDB(liquorName, sellerName)
+    return dao.liquorDao.liquorDao.updateStockOnDB(liquorName)
 
 
 def liquors_search(liquorName):
