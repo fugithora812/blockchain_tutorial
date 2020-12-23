@@ -32,16 +32,16 @@ function getNewLiquors() {
   // displayLiquor.innerHTML = "<p>hello</p>";
 }
 
-// 人気のお酒を表示する
-function getPopularLiquor() {
-  fetch(url_get).then(function (liquors) {
-    // 読み込むデータをJSONに設定
-    return liquors.json();
-  }).then(function (json) {
-    // データ読み出し、表示
+// ToDo: 人気のお酒を表示する
+// function getPopularLiquor() {
+//   fetch(url_get).then(function (liquors) {
+//     // 読み込むデータをJSONに設定
+//     return liquors.json();
+//   }).then(function (json) {
+//     // データ読み出し、表示
 
-  });
-}
+//   });
+// }
 
 // 在庫の検索・表示
 function searchLiquor() {
@@ -71,20 +71,27 @@ function searchLiquor() {
   });
 }
 
-// 在庫の取り置き
+// 在庫の取り置き処理を実行する
 function reserveLiquor(liquorName) {
   const url_reserve = `http://localhost:8080/api/v1/liquors/reserve?liquorName=${liquorName}`
 
   fetch(url_reserve).then(function (liquors) {
-    // 読み込むデータをJSONに設定
+    // Promiseオブジェクトを1文字ずつテキスト化
     return liquors.text();
-  }).then(function (bool) {
+  }).then(function (booltxt) {
     // 処理結果の表示
+    if (booltxt[0] == "t") {
+      alert("取り置き成功しました");
+      return true
+    } else {
+      return false
+    }
+  }).then(function (bool) {
     let reserveResult = document.getElementById("reservation");
-    if (bool[0] == "t") {
+    if (bool === true) {
       reserveResult.innerHTML = `<p>SUCCESS</p>\
-                                  <p>取り置き成功しました</p> \
-                                  <input type="button" id="success" value="確認" onclick="backTop()">`;
+                              <p>取り置き成功しました</p> \
+                              <input type="button" id="success" value="確認" onclick="backTop()">`;
     } else {
       reserveResult.innerHTML = `<p>FAILED...</p>\
                                   <p>取り置き失敗しました</p> \
@@ -94,8 +101,25 @@ function reserveLiquor(liquorName) {
   });
 }
 
-// 画面をフェードして取り置きダイアログを表示
-// NEW ARRIVE用
+// 取り置き処理の結果を表示する
+function showReserveResult(bool, ...liquorName) {
+  let reserveResult = document.getElementById("reserveResult");
+  if (bool == true) {
+    reserveResult.innerHTML = `<p>SUCCESS</p>\
+                                <p>取り置き成功しました</p> \
+                                <input type="button" id="success" value="確認">`;
+  } else if (bool == false) {
+    reserveResult.innerHTML = `<p>FAILED...</p>\
+                                  <p>取り置き失敗しました</p> \
+                                  <input type="button" id="reservationFaild" value="再試行" onclick="reserveLiquor('${liquorName}')">\
+                                  <input type="button" id="noReserve" value="キャンセル" onclick="backTop()">`;
+
+  } else {
+    getNewLiquors;
+  }
+}
+
+// 画面をフェードして取り置きダイアログを表示する -NEW ARRIVE用
 function fade(liquorNumber) {
   let reservation = document.getElementById("fadeLayer");
   reservation.style.visibility = "visible";
@@ -109,7 +133,7 @@ function fade(liquorNumber) {
                         <input type="button" id="noReserve" value="いいえ" onclick="backTop()"></div ></div > `;
 }
 
-// SEARCH RESULT用
+// 画面をフェードして取り置きダイアログを表示する -SEARCH RESULT用
 function fadeResult() {
   let reservation = document.getElementById("fadeLayer");
   reservation.style.visibility = "visible";
@@ -123,11 +147,12 @@ function fadeResult() {
                         <input type="button" id="noReserve" value="いいえ" onclick="backTop()"></div ></div > `;
 }
 
-// 取り置き依頼をキャンセルした際、トップ画面に戻す
+// フェードを消してトップ画面に戻す
 function backTop() {
   let makeInvisible = document.getElementById("fadeLayer");
   makeInvisible.style.visibility = "hidden";
 }
 
 
+// 画面ロード時に商品を表示
 window.onload = getNewLiquors;

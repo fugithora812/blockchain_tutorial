@@ -8,6 +8,10 @@
   </head>
   <body>
     <h1>LIQUOR.COM</h1>
+    <!-- 取り置き処理の結果を表示する -->
+    <div id="reserveResult"></div>
+
+    <!-- 検索ブロック -->
     <div id="block">
       <input type="text" id="wantThis" placeholder="商品名を入力して検索">
       <input type="button" id="search" value="SEARCH" onclick="searchLiquor()">
@@ -16,14 +20,15 @@
     <!-- 検索結果を動的に表示する -->
     <div id="searchResult"></div>
 
-    <!-- アクセス時に商品を表示 -->
+    <!-- アクセス時に商品を表示する -->
     <div id="block">
       <div id="newArrive">
         NEW ARRIVE
         <div id="liquors"></div>
       </div>
     </div>
-    <!-- <a href="javascript:void(0);" onclick="fade();">黒フェード</a> -->
+
+    <!-- 商品名クリック時にフェード機能を起動 -->
     <div id="fadeLayer"></div>
 
   </body>
