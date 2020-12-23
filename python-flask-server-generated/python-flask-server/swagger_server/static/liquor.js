@@ -57,20 +57,17 @@ function searchLiquor() {
     return liquors.json();
   }).then(function (json) {
 
-    // データ読み出し、表示
-    // let displayQuantity = 3;
-    // for (let i = 0; i < displayQuantity; i++) {
-    //   let resultLiquor = document.getElementById("searchResult");
-    //   resultLiquor.innerHTML = `<div id="result"><a href="javascript:void(0);" onclick="fade();">${json[i]}</a></div>`;
-    // }
+    let liquorName = "";
+    for (let i = 0; i < json.length; i++) {
+      liquorName += json[i];
+    }
 
     let resultLiquor = document.getElementById("searchResult");
     resultLiquor.innerHTML = `<div id="resultDiv">SEARCH RESULT<br><a href="javascript:void(0);" id="result" onclick="fade();"></a></div>`;
 
     let liquor = document.getElementById("result");
-    for (let i = 0; i < json.length; i++) {
-      liquor.innerHTML += `${json[i]}`;
-    }
+    liquor.innerHTML += `${liquorName}`;
+
   });
 }
 
@@ -103,6 +100,19 @@ function fade(liquorNumber) {
   reservation.style.visibility = "visible";
 
   let liquorName = document.getElementById(`liquor${liquorNumber}`).innerHTML;
+
+  reservation.innerHTML = `<div id="block"><div id="reservation"> \
+                        <p> RESERVATION: ${liquorName}</p> \
+                        <p>取り置き依頼しますか？<p>\
+                        <input type="button" id="yesReserve" value="はい" onclick="reserveLiquor('${liquorName}')">\
+                        <input type="button" id="noReserve" value="いいえ" onclick="backTop()"></div ></div > `;
+}
+
+function fade() {
+  let reservation = document.getElementById("fadeLayer");
+  reservation.style.visibility = "visible";
+
+  let liquorName = document.getElementById(`result`).innerHTML;
 
   reservation.innerHTML = `<div id="block"><div id="reservation"> \
                         <p> RESERVATION: ${liquorName}</p> \
