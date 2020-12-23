@@ -26,8 +26,12 @@ h1 {
   animation-duration: 2s;
 }
 
-/* 検索ボタン */
-#search {
+/* 各種ボタン */
+#search,
+#yesReserve,
+#noReserve,
+#reserveSuccess,
+#reserveFailed {
   background-color: ghostwhite;
   border-radius: 20% 20%;
 
@@ -47,7 +51,7 @@ h1 {
   justify-content: center;
   align-items: center;
   width: 40%;
-  margin-top: 2%;
+  margin-top: 5%;
   margin-left: 1%;
   padding: 3%;
   background-color: rgb(125, 207, 250, 0.93);
@@ -77,7 +81,7 @@ h1 {
   font-family: "Comic Sans MS";
 }
 
-/* 取り置き予約フォーマット用 */
+/* 取り置き予約フォーマット */
 #reservation {
   justify-content: center;
   align-items: center;
@@ -92,6 +96,11 @@ h1 {
 
   text-align: center;
   font-family: "Comic Sans MS";
+}
+
+/* ポップアップのタイトル */
+#popTitle {
+  font-size: 32px;
 }
 
 #fadeLayer {
