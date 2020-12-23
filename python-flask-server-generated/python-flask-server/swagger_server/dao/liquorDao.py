@@ -116,7 +116,6 @@ class liquorDao:
 
         engine = create_engine('sqlite:///app.db')
 
-        # Todo: STOCK_QUANTITYのマジックナンバーは変える必要がある
         with engine.connect() as con:
             # DB接続してクエリ発行
             # con.execute("create table liquor_table( \
