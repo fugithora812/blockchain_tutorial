@@ -46,38 +46,14 @@ class liquorDao:
         liquors = web3.eth.contract(address=liquorDao.contractAddress, abi=abi)
         json_open.close()
 
-        # these are from https://web3py.readthedocs.io/en/latest/overview.html#contracts
-        # tx_hash = liquors.constructor().transact()
-        # tx_receipt = web3.eth.waitForTransactionReceipt(tx_hash)
-        # tx_receipt.contractAddress
-        # deployed_contract = web3.eth.contract(address=tx_receipt.contractAddress, abi=abi)
-        # return deployed_contract.functions.fetchAllLiquors().call()
-
-        # return json.dump(liquors.functions.fetchAllLiquors().transact())
-
         liquorNum = len(liquors.functions.fetchAllLiquors().call())
         numList = []
         for number in range(liquorNum):
             numList.append(number)
 
-        # listLiquor = liquors.functions.fetchAllLiquors().call()
-        # liquorNames = []
-        # for liq in listLiquor:
-        #     liquorName = ""
-        #     for letter in liq:
-        #         print(ord(letter))
-        #         liquorName += ord(letter)
-        #     liquorNames.append(liquorName)
-
-        # liquorDict = dict(zip(numList, listLiquor))
-        # return json.dumps(liquorDict)
         return liquors.functions.fetchAllLiquors().call()
 
     def updateStockOnDB(liquorName: str) -> bool:
-        # stockQuery = database.session.query(liquorModel)
-        # stock_update = stockQuery.filter(
-        #     liquorModel.LIQUOR_NAME == liquorName, liquorModel.SELLER_NAME == sellerName)
-
         # DB接続してクエリ発行
         engine = create_engine('sqlite:///app.db')
         stock_update = -1
@@ -98,10 +74,10 @@ class liquorDao:
             if stock_update - 1 == 0:
                 liquorDao.updateReservabilityOnBC(liquorId)
 
-            # ToDo: データベース更新処理実装
+            # DBの在庫数更新
             newQuantity = stock_update - 1
             with engine.connect() as con:
-                rows = con.execute(f"update liquor_table set STOCK_QUANTITY={newQuantity} where LIQUOR_NAME='{liquorName}' and TOKEN_ID={liquorId}")
+                con.execute("update liquor_table set STOCK_QUANTITY={} where LIQUOR_NAME='{}' and TOKEN_ID={}".format(newQuantity, liquorName, liquorId))
 
             return True
 

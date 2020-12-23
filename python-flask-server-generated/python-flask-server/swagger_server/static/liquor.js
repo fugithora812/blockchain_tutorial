@@ -63,7 +63,7 @@ function searchLiquor() {
     }
 
     let resultLiquor = document.getElementById("searchResult");
-    resultLiquor.innerHTML = `<div id="resultDiv">SEARCH RESULT<br><a href="javascript:void(0);" id="result" onclick="fade();"></a></div>`;
+    resultLiquor.innerHTML = `<div id="resultDiv">SEARCH RESULT<br><a href="javascript:void(0);" id="result" onclick="fadeResult();"></a></div>`;
 
     let liquor = document.getElementById("result");
     liquor.innerHTML += `${liquorName}`;
@@ -84,17 +84,18 @@ function reserveLiquor(liquorName) {
     if (bool[0] == "t") {
       reserveResult.innerHTML = `<p>SUCCESS</p>\
                                   <p>取り置き成功しました</p> \
-                                  <input type="button" id="noReserve" value="確認" onclick="backTop()">`;
+                                  <input type="button" id="success" value="確認" onclick="backTop()">`;
     } else {
       reserveResult.innerHTML = `<p>FAILED...</p>\
                                   <p>取り置き失敗しました</p> \
-                                  <input type="button" id="yesReserve" value="再試行" onclick="reserveLiquor('${liquorName}')">\
+                                  <input type="button" id="reservationFaild" value="再試行" onclick="reserveLiquor('${liquorName}')">\
                                   <input type="button" id="noReserve" value="キャンセル" onclick="backTop()">`;
     }
   });
 }
 
 // 画面をフェードして取り置きダイアログを表示
+// NEW ARRIVE用
 function fade(liquorNumber) {
   let reservation = document.getElementById("fadeLayer");
   reservation.style.visibility = "visible";
@@ -108,7 +109,8 @@ function fade(liquorNumber) {
                         <input type="button" id="noReserve" value="いいえ" onclick="backTop()"></div ></div > `;
 }
 
-function fade() {
+// SEARCH RESULT用
+function fadeResult() {
   let reservation = document.getElementById("fadeLayer");
   reservation.style.visibility = "visible";
 
