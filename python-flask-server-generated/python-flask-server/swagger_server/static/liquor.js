@@ -95,6 +95,7 @@ function reserveLiquor(liquorName) {
 }
 
 // 画面をフェードして取り置きダイアログを表示
+// NEW ARRIVE用
 function fade(liquorNumber) {
   let reservation = document.getElementById("fadeLayer");
   reservation.style.visibility = "visible";
@@ -108,6 +109,7 @@ function fade(liquorNumber) {
                         <input type="button" id="noReserve" value="いいえ" onclick="backTop()"></div ></div > `;
 }
 
+// SEARCH RESULT用
 function fade() {
   let reservation = document.getElementById("fadeLayer");
   reservation.style.visibility = "visible";
