@@ -14,10 +14,25 @@ h1 {
   animation-duration: 2s;
 }
 
+/* 検索文字列の入力フィールド */
 #wantThis {
   width: 30%;
+  height: 5%;
+  background-color: ghostwhite;
+
+  font-family: "Comic Sans MS";
+
   animation-name: loading;
   animation-duration: 2s;
+}
+
+/* 検索ボタン */
+#search {
+  background-color: ghostwhite;
+  border-radius: 20% 20%;
+
+  font-family: "Comic Sans MS";
+  font-size: medium;
 }
 
 #block,
@@ -27,6 +42,7 @@ h1 {
   align-items: center;
 }
 
+/* アクセス時の商品表示フィールド */
 #newArrive {
   justify-content: center;
   align-items: center;
