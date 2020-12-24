@@ -46,12 +46,18 @@ class liquorDao:
         liquors = web3.eth.contract(address=liquorDao.contractAddress, abi=abi)
         json_open.close()
 
-        liquorNum = len(liquors.functions.fetchAllLiquors().call())
-        numList = []
-        for number in range(liquorNum):
-            numList.append(number)
+        # 要素数を数え、順にリストに追加
+        contents = liquors.functions.fetchAllLiquors().call()
+        liquorNum = len(contents)
 
-        return liquors.functions.fetchAllLiquors().call()
+        contentName = ["liquorName", "sellerName", "isReservable", "arrivalDay", "stockQuantity"]
+        contentList = []
+        for number in range(int(liquorNum / 5)):
+            tmpList = [contents[(5 * number)], contents[(5 * number) + 1],
+                       contents[(5 * number) + 2], contents[(5 * number) + 3], contents[(5 * number) + 4]]
+            contentList.append(dict(zip(contentName, tmpList)))
+
+        return contentList
 
     def updateStockOnDB(liquorName: str) -> bool:
         # DB接続してクエリ発行
