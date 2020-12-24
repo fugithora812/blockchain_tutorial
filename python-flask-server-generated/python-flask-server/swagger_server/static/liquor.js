@@ -8,7 +8,7 @@ function getNewLiquors() {
     // 読み込むデータをJSONに設定
     return liquors.json();
   }).then(function (json) {
-    // データ読み出し、表示
+    // ToDo: ver2.0.0 全種類データ読み出し・表示
     // let displayQuantity = 3;
     // for (let i = 0; i < displayQuantity; i++) {
     //   let newLiquor = json[i].liquorName;
@@ -18,6 +18,7 @@ function getNewLiquors() {
     //   displayLiquor.innerHTML = `<a href="javascript:void(0);" onclick="fade();">${newLiquor} 入荷日：${arriveDateString}</a>`
     // }
 
+    // ver1.0.0 商品名のみ表示
     let displayQuantity = 3;
     let htmlArray = [];
     for (let i = 0; i < displayQuantity; i++) {
@@ -25,24 +26,8 @@ function getNewLiquors() {
       htmlArray[i] = `<a href="javascript:void(0);" id="liquor${i}" onclick="fade(${i});">${json[i]}</a><br>`;
       displayLiquor.innerHTML += htmlArray[i]
     }
-
   });
-
-  // let displayLiquor = document.getElementById("newArrive");
-  // displayLiquor.innerHTML = "<p>hello</p>";
 }
-
-// ToDo: 人気のお酒を表示する
-// function getPopularLiquor() {
-//   fetch(url_get).then(function (liquors) {
-//     // 読み込むデータをJSONに設定
-//     return liquors.json();
-//   }).then(function (json) {
-//     // データ読み出し、表示
-
-//   });
-// }
-
 
 // 在庫の検索・表示
 function searchLiquor() {
@@ -67,7 +52,13 @@ function searchLiquor() {
     resultLiquor.innerHTML = `<div id="resultDiv">SEARCH RESULT<br><a href="javascript:void(0);" id="result" onclick="fadeResult();"></a></div>`;
 
     let liquor = document.getElementById("result");
-    liquor.innerHTML += `${liquorName}`;
+
+    if (liquorName == "") {
+      let notFound = document.getElementById("resultDiv");
+      notFound.innerHTML = '<p>NOT FOUND<p>該当する商品がありません';
+    } else {
+      liquor.innerHTML += `${liquorName}`;
+    }
 
   });
 }
@@ -88,31 +79,21 @@ function reserveLiquor(liquorName) {
                               <p>取り置き成功しました</p> \
                               <input type="button" id="reserveSuccess" value="OK" onclick="backTop()">`;
     } else {
-      reserveResult.innerHTML = `<p id="popTitle>FAILED...</p>\
+      reserveResult.innerHTML = `<p id="popTitle">SORRY...</p>\
                                   <p>取り置き失敗しました</p> \
-                                  <input type="button" id="reserveFaild" value="再試行" onclick="reserveLiquor('${liquorName}')">\
-                                  <input type="button" id="noReserve" value="キャンセル" onclick="backTop()">`;
+                                  <input type="button" id="yesReserve" value="Retry" onclick="reserveLiquor('${liquorName}')">\
+                                  <input type="button" id="noReserve" value="Cancel" onclick="reserveCancel()">`;
     }
   });
 
 }
 
-// 取り置き処理の結果を表示する
-function showReserveResult(bool, ...liquorName) {
-  let reserveResult = document.getElementById("reserveResult");
-  if (bool == true) {
-    reserveResult.innerHTML = `<p>SUCCESS</p>\
-                                <p>取り置き成功しました</p> \
-                                <input type="button" id="success" value="確認">`;
-  } else if (bool == false) {
-    reserveResult.innerHTML = `<p>FAILED...</p>\
-                                  <p>取り置き失敗しました</p> \
-                                  <input type="button" id="reservationFaild" value="再試行" onclick="reserveLiquor('${liquorName}')">\
-                                  <input type="button" id="noReserve" value="キャンセル" onclick="backTop()">`;
-
-  } else {
-    getNewLiquors;
-  }
+// 取り置きキャンセルのポップアップ表示しTOP画面に戻す
+function reserveCancel() {
+  let reserveCancel = document.getElementById("reservation");
+  reserveCancel.innerHTML = '<p id="popTitle">CANCELED</p>\
+                              <p>取り置きをキャンセルしました</p>\
+                              <input type="button" id="noReserve" value="OK" onclick="backTop()">';
 }
 
 // 画面をフェードして取り置きダイアログを表示する -NEW ARRIVE用
@@ -126,7 +107,7 @@ function fade(liquorNumber) {
                         <p id="popTitle"> RESERVATION: ${liquorName}</p> \
                         <p>取り置き依頼しますか？<p>\
                         <input type="button" id="yesReserve" value="YES" onclick="reserveLiquor('${liquorName}')">\
-                        <input type="button" id="noReserve" value="NO" onclick="backTop()"></div ></div > `;
+                        <input type="button" id="noReserve" value="NO" onclick="reserveCancel()"></div ></div > `;
 }
 
 // 画面をフェードして取り置きダイアログを表示する -SEARCH RESULT用
@@ -139,8 +120,8 @@ function fadeResult() {
   reservation.innerHTML = `<div id="block"><div id="reservation"> \
                         <p> RESERVATION: ${liquorName}</p> \
                         <p>取り置き依頼しますか？<p>\
-                        <input type="button" id="yesReserve" value="はい" onclick="reserveLiquor('${liquorName}')">\
-                        <input type="button" id="noReserve" value="いいえ" onclick="backTop()"></div ></div > `;
+                        <input type="button" id="yesReserve" value="YES" onclick="reserveLiquor('${liquorName}')">\
+                        <input type="button" id="noReserve" value="NO" onclick="reserveCancel()"></div ></div > `;
 }
 
 // フェードを消してトップ画面に戻す

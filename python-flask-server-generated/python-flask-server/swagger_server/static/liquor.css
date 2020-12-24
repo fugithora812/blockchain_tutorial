@@ -1,9 +1,11 @@
+/* 背景画像の設定 */
 body {
   background-image: url("./liquor1.jpg");
   background-color: rgba(46, 46, 46, 0.8);
   background-size: cover;
 }
 
+/* ページタイトル */
 h1 {
   text-align: center;
   font-family: "Monotype Corsiva";
@@ -16,8 +18,11 @@ h1 {
 
 /* 検索文字列の入力フィールド */
 #wantThis {
-  width: 30%;
+  /* vw = view width (max: 100vw) */
+  width: 15vw;
   height: 5%;
+  margin-right: 1%;
+  border-radius: 20%;
   background-color: ghostwhite;
 
   font-family: "Comic Sans MS";
@@ -39,6 +44,7 @@ h1 {
   font-size: medium;
 }
 
+/* ポップアップの親DIV */
 #block,
 #searchResult {
   display: flex;
@@ -81,7 +87,7 @@ h1 {
   font-family: "Comic Sans MS";
 }
 
-/* 取り置き予約フォーマット */
+/* 取り置き予約ポップアップ */
 #reservation {
   justify-content: center;
   align-items: center;
@@ -101,8 +107,11 @@ h1 {
 /* ポップアップのタイトル */
 #popTitle {
   font-size: 32px;
+  margin-top: 2%;
+  margin-bottom: 2%;
 }
 
+/* フェード処理に使うDIV */
 #fadeLayer {
   position: absolute;
   top: 0px;
@@ -116,6 +125,7 @@ h1 {
   z-index: 1;
 }
 
+/* 要素を下から上に挿入する */
 @keyframes loadDisplay {
   0% {
     opacity: 0;
