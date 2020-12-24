@@ -7,8 +7,9 @@ import json
 class liquorDao:
     tokenId: int = 0
     userAccount: str = "0xF1F86752EBa4E4B206899e374E7F0d5514105481"
-    contractAddress: str = "0xb33746e22dDf12eBFcf999B2A210a431deb13E6E"
+    contractAddress: str = "0x74396086846D7Ea6830EE3F04EC510FdC9A94AB2"
 
+    # 指定したIDの商品１点を表示
     def fetchLiquorFromBC(searchId: int) -> str:
         web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
         pathToAbi = "dao/Liquor.json"
@@ -19,7 +20,12 @@ class liquorDao:
         abi = json_load["abi"]
         liquors = web3.eth.contract(address=liquorDao.contractAddress, abi=abi)
         json_open.close()
-        return liquors.functions.fetchLiquor(searchId - 1).call()
+        liquorContent = liquors.functions.fetchLiquor(searchId - 1).call()
+        contentName = ["liquorName", "sellerName", "isReservable", "arrivalDay", "stockQuantity"]
+        contentList = []
+        contentList.append(dict(zip(contentName, liquorContent)))
+
+        return contentList
 
     def fetchTokenIdFromDB(liquorName: str) -> int:
         # DB接続
@@ -92,6 +98,9 @@ class liquorDao:
     def updateReservabilityOnBC(tokenId: int) -> int:
         web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
         pathToAbi = "dao/Liquor.json"
+
+        print(type(tokenId))
+        print(tokenId)
 
         json_open = open(pathToAbi, "r")
         json_load = json.load(json_open)

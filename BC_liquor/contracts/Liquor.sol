@@ -63,14 +63,14 @@ contract Liquor is ERC721Full {
         return liquors;
     }
 
-    // ToDo: 在庫数のアップデート機能を追加
-    // function updateReservability(uint256 _tokenId) external {
-    //     if (stringToBool(liquorCollection[_tokenId].isReservable) == true) {
-    //         liquorCollection[_tokenId].isReservable = "true";
-    //     } else {
-    //         liquorCollection[_tokenId].isReservable = "false";
-    //     }
-    // }
+    // 取り置き可能かどうかのアップデート
+    function updateReservability(uint256 _tokenId) external {
+        if (stringToBool(liquorCollection[_tokenId].isReservable) == true) {
+            liquorCollection[_tokenId].isReservable = "true";
+        } else {
+            liquorCollection[_tokenId].isReservable = "false";
+        }
+    }
 
     function addBlockToRegister(
         string memory liquorName,

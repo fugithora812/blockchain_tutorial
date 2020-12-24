@@ -8,23 +8,17 @@ function getNewLiquors() {
     // 読み込むデータをJSONに設定
     return liquors.json();
   }).then(function (json) {
-    // ToDo: ver2.0.0 全種類データ読み出し・表示
-    // let displayQuantity = 3;
-    // for (let i = 0; i < displayQuantity; i++) {
-    //   let newLiquor = json[i].liquorName;
-    //   let arriveDateString = json[i].arrivalDay;
-
-    //   let displayLiquor = document.getElementById("newArrive");
-    //   displayLiquor.innerHTML = `<a href="javascript:void(0);" onclick="fade();">${newLiquor} 入荷日：${arriveDateString}</a>`
-    // }
-
-    // ver1.0.0 商品名のみ表示
-    let displayQuantity = 3;
+    // ver1.1.0 全種類データ読み出し・表示
     let htmlArray = [];
+    let displayQuantity = 3;
     for (let i = 0; i < displayQuantity; i++) {
-      let displayLiquor = document.getElementById("liquors");
-      htmlArray[i] = `<a href="javascript:void(0);" id="liquor${i}" onclick="fade(${i});">${json[i]}</a><br>`;
-      displayLiquor.innerHTML += htmlArray[i]
+      let newLiquor = json[i].liquorName;
+      let arriveDateString = json[i].arrivalDay;
+      let sellerName = json[i].sellerName;
+
+      let displayLiquor = document.getElementById("newArrive");
+      htmlArray[i] = `<a href="javascript:void(0);" onclick="fade(${i});" id="liquor${i}">${newLiquor}</a> (取扱店：${sellerName})<br>`
+      displayLiquor.innerHTML += htmlArray[i];
     }
   });
 }
@@ -39,25 +33,27 @@ function searchLiquor() {
 
   fetch(url_search).then(function (liquors) {
     // 読み込むデータをJSONに設定
-    console.log(liquors);
     return liquors.json();
   }).then(function (json) {
 
     let liquorName = "";
+    let sellerName = "";
     for (let i = 0; i < json.length; i++) {
-      liquorName += json[i];
+      liquorName = json[i].liquorName;
+      sellerName = json[i].sellerName;
     }
 
     let resultLiquor = document.getElementById("searchResult");
-    resultLiquor.innerHTML = `<div id="resultDiv">SEARCH RESULT<br><a href="javascript:void(0);" id="result" onclick="fadeResult();"></a></div>`;
+    resultLiquor.innerHTML = `<div id="resultDiv"><p id="popTitle">SEARCH RESULT</p><a href="javascript:void(0);" id="result" onclick="fadeResult();"></a></div>`;
 
     let liquor = document.getElementById("result");
-
+    let notFound = document.getElementById("resultDiv");
     if (liquorName == "") {
-      let notFound = document.getElementById("resultDiv");
+
       notFound.innerHTML = '<p>NOT FOUND<p>該当する商品がありません';
     } else {
       liquor.innerHTML += `${liquorName}`;
+      notFound.innerHTML += `(取扱店：${sellerName})`
     }
 
   });
