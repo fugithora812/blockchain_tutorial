@@ -1,7 +1,6 @@
 /* 背景画像の設定 */
 body {
-  background-image: url("./liquor1.jpg");
-  background-color: rgba(46, 46, 46, 0.8);
+  background-image: url("./liquor3.jpg");
   background-size: cover;
 }
 
@@ -10,8 +9,8 @@ h1 {
   text-align: center;
   font-family: "Monotype Corsiva";
   font-size: 48px;
-  color: aquamarine;
-  background-color: rgba(46, 46, 46, 0.9);
+  color: darkviolet;
+  background-color: rgba(255, 255, 255, 0.9);
   animation-name: loading;
   animation-duration: 2s;
 }
@@ -22,9 +21,7 @@ h1 {
   width: 15vw;
   height: 5%;
   margin-right: 1%;
-  border-radius: 20%;
-  background-color: ghostwhite;
-
+  background-color: whitesmoke;
   font-family: "Comic Sans MS";
 
   animation-name: loading;
@@ -53,14 +50,15 @@ h1 {
 }
 
 /* アクセス時の商品表示フィールド */
-#newArrive {
+#newArrive,
+#popularSeller {
   justify-content: center;
   align-items: center;
   width: 40%;
   margin-top: 5%;
   margin-left: 1%;
   padding: 3%;
-  background-color: rgb(125, 207, 250, 0.93);
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 50% 20% / 10% 40%;
   /* animation-name: loading;
   animation-duration: 2s; */
@@ -78,7 +76,7 @@ h1 {
   margin-top: 2%;
   margin-left: 1%;
   padding: 3%;
-  background-color: rgb(125, 207, 250, 0.93);
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 50% 20% / 10% 40%;
   animation-name: loadDisplay;
   animation-duration: 1s;
@@ -87,15 +85,16 @@ h1 {
   font-family: "Comic Sans MS";
 }
 
-/* 取り置き予約ポップアップ */
-#reservation {
+/* フェード時のポップアップ */
+#reservation,
+#toDisplayLiquor {
   justify-content: center;
   align-items: center;
   width: 40%;
   margin-top: 20%;
   margin-left: 1%;
   padding: 3%;
-  background-color: rgb(125, 207, 250, 1);
+  background-color: rgba(255, 255, 255, 0.95);
   border-radius: 50% 20% / 10% 40%;
   animation-name: loadDisplay;
   animation-duration: 1s;

@@ -452,9 +452,9 @@
       "name": "fetchLiquor",
       "outputs": [
         {
-          "internalType": "string",
+          "internalType": "string[]",
           "name": "",
-          "type": "string"
+          "type": "string[]"
         }
       ],
       "payable": false,

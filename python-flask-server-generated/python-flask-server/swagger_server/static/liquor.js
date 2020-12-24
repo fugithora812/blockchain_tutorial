@@ -1,30 +1,29 @@
 "use strict";
 
-// TOP画面に新着のお酒を表示する
+// TOP画面に新しいお酒を数点表示する
 function getNewLiquors() {
-  const url_get    = 'http://localhost:8080/api/v1/liquors'
+  const url_get = 'http://localhost:8080/api/v1/liquors'
 
   fetch(url_get).then(function (liquors) {
     // 読み込むデータをJSONに設定
     return liquors.json();
   }).then(function (json) {
-    // ToDo: ver2.0.0 全種類データ読み出し・表示
-    // let displayQuantity = 3;
-    // for (let i = 0; i < displayQuantity; i++) {
-    //   let newLiquor = json[i].liquorName;
-    //   let arriveDateString = json[i].arrivalDay;
-
-    //   let displayLiquor = document.getElementById("newArrive");
-    //   displayLiquor.innerHTML = `<a href="javascript:void(0);" onclick="fade();">${newLiquor} 入荷日：${arriveDateString}</a>`
-    // }
-
-    // ver1.0.0 商品名のみ表示
-    let displayQuantity = 3;
+    // ver1.1.0 全種類データ読み出し・表示
     let htmlArray = [];
+    let displayQuantity = json.length;
+    let tempLiquors = [];
+    let displayLiquor = document.getElementById("newArrive");
+
     for (let i = 0; i < displayQuantity; i++) {
-      let displayLiquor = document.getElementById("liquors");
-      htmlArray[i] = `<a href="javascript:void(0);" id="liquor${i}" onclick="fade(${i});">${json[i]}</a><br>`;
-      displayLiquor.innerHTML += htmlArray[i]
+      let newLiquor = json[i].liquorName;
+
+      // 商品名の重複を排除
+      // if (!(tempLiquors.includes(newLiquor))) {
+      // tempLiquors.push(sellerName);
+
+      htmlArray[i] = `<li><a href="javascript:void(0);" onclick="fade(${i});" id="liquor${i}">${newLiquor}</a></li><br>`
+      displayLiquor.innerHTML += htmlArray[i];
+      // }
     }
   });
 }
@@ -39,25 +38,27 @@ function searchLiquor() {
 
   fetch(url_search).then(function (liquors) {
     // 読み込むデータをJSONに設定
-    console.log(liquors);
     return liquors.json();
   }).then(function (json) {
 
     let liquorName = "";
+    let sellerName = "";
     for (let i = 0; i < json.length; i++) {
-      liquorName += json[i];
+      liquorName = json[i].liquorName;
+      sellerName = json[i].sellerName;
     }
 
     let resultLiquor = document.getElementById("searchResult");
-    resultLiquor.innerHTML = `<div id="resultDiv">SEARCH RESULT<br><a href="javascript:void(0);" id="result" onclick="fadeResult();"></a></div>`;
+    resultLiquor.innerHTML = `<div id="resultDiv"><p id="popTitle">SEARCH RESULT</p><a href="javascript:void(0);" id="result" onclick="fadeResult();"></a></div>`;
 
     let liquor = document.getElementById("result");
-
+    let notFound = document.getElementById("resultDiv");
     if (liquorName == "") {
-      let notFound = document.getElementById("resultDiv");
-      notFound.innerHTML = '<p>NOT FOUND<p>該当する商品がありません';
+
+      notFound.innerHTML = '<p id="popTitle">NOT FOUND</p>該当する商品がありません';
     } else {
       liquor.innerHTML += `${liquorName}`;
+      notFound.innerHTML += `(取扱店：${sellerName})`
     }
 
   });
@@ -82,7 +83,7 @@ function reserveLiquor(liquorName) {
       reserveResult.innerHTML = `<p id="popTitle">SORRY...</p>\
                                   <p>取り置き失敗しました</p> \
                                   <input type="button" id="yesReserve" value="Retry" onclick="reserveLiquor('${liquorName}')">\
-                                  <input type="button" id="noReserve" value="Cancel" onclick="reserveCancel()">`;
+                                  <input type="button" id="noReserve" value="Cancel" onclick="backTop()">`;
     }
   });
 
@@ -130,6 +131,70 @@ function backTop() {
   makeInvisible.style.visibility = "hidden";
 }
 
+// 登録店舗を表示
+function getSellers() {
+  const url_get = 'http://localhost:8080/api/v1/liquors'
 
-// 画面ロード時に商品を表示
-window.onload = getNewLiquors;
+  fetch(url_get).then(function (liquors) {
+    // 読み込むデータをJSONに設定
+    return liquors.json();
+  }).then(function (json) {
+    // ver1.1.0 全種類データ読み出し・表示
+    let htmlArray = [];
+    let displayQuantity = json.length;
+
+    // 重複判定用の配列sellers
+    let sellers = [];
+
+    let displayLiquor = document.getElementById("popularSeller");
+    displayLiquor.innerHTML += "<ol></ol>"
+    for (let i = 0; i < displayQuantity; i++) {
+      let newLiquor = json[i].liquorName;
+      let sellerName = json[i].sellerName;
+
+      // 店舗の重複を排除
+      if (!(sellers.includes(sellerName))) {
+        sellers.push(sellerName);
+
+        htmlArray[i] = `<li><a href="javascript:void(0);" onclick="sellerLiquor('${sellerName}');" id="liquor${i}">${sellerName}</a></li><br>`
+        displayLiquor.innerHTML += htmlArray[i];
+      }
+    }
+  });
+}
+
+// 同一取扱店舗の商品を一括表示
+function sellerLiquor(clickedSeller) {
+  // フェード処理
+  let sellerLiquor = document.getElementById("fadeLayer");
+  sellerLiquor.style.visibility = "visible";
+  sellerLiquor.innerHTML = `<div id='block'><div id='toDisplayLiquor'><p id="popTitle">SELLER: ${clickedSeller}</p></div></div>`;
+
+  const url_get = 'http://localhost:8080/api/v1/liquors'
+
+  fetch(url_get).then(function (liquors) {
+    // 読み込むデータをJSONに設定
+    return liquors.json();
+  }).then(function (json) {
+    // ver1.1.0 全種類データ読み出し・表示
+    let htmlArray = [];
+    let displayQuantity = json.length;
+
+    let displayLiquor = document.getElementById("toDisplayLiquor");
+    for (let i = 0; i < displayQuantity; i++) {
+      let sellerName = json[i].sellerName;
+
+      if (sellerName == clickedSeller) {
+        let newLiquor = json[i].liquorName;
+
+        htmlArray[i] = `<li><a href="javascript:void(0);" onclick="fade(${i});" id="liquor${i}">${newLiquor}</a></li><br>`
+        displayLiquor.innerHTML += htmlArray[i];
+      }
+    }
+  });
+}
+
+
+// 画面ロード時に商品, 登録店舗を表示
+window.addEventListener("load", getNewLiquors);
+window.addEventListener("load", getSellers);

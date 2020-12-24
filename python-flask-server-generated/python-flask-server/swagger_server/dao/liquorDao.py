@@ -1,5 +1,4 @@
 from web3 import Web3
-# from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 import json
 
@@ -7,8 +6,9 @@ import json
 class liquorDao:
     tokenId: int = 0
     userAccount: str = "0xF1F86752EBa4E4B206899e374E7F0d5514105481"
-    contractAddress: str = "0x2664aaAA24A1A618853f8ebc69eE88C702Ef2B00"
+    contractAddress: str = "0x74396086846D7Ea6830EE3F04EC510FdC9A94AB2"
 
+    # 指定したIDの商品１点を表示
     def fetchLiquorFromBC(searchId: int) -> str:
         web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
         pathToAbi = "dao/Liquor.json"
@@ -19,7 +19,12 @@ class liquorDao:
         abi = json_load["abi"]
         liquors = web3.eth.contract(address=liquorDao.contractAddress, abi=abi)
         json_open.close()
-        return liquors.functions.fetchLiquor(searchId - 1).call()
+        liquorContent = liquors.functions.fetchLiquor(searchId - 1).call()
+        contentName = ["liquorName", "sellerName", "isReservable", "arrivalDay", "stockQuantity"]
+        contentList = []
+        contentList.append(dict(zip(contentName, liquorContent)))
+
+        return contentList
 
     def fetchTokenIdFromDB(liquorName: str) -> int:
         # DB接続
@@ -46,12 +51,18 @@ class liquorDao:
         liquors = web3.eth.contract(address=liquorDao.contractAddress, abi=abi)
         json_open.close()
 
-        liquorNum = len(liquors.functions.fetchAllLiquors().call())
-        numList = []
-        for number in range(liquorNum):
-            numList.append(number)
+        # 要素数を数え、順にリストに追加
+        contents = liquors.functions.fetchAllLiquors().call()
+        liquorNum = len(contents)
 
-        return liquors.functions.fetchAllLiquors().call()
+        contentName = ["liquorName", "sellerName", "isReservable", "arrivalDay", "stockQuantity"]
+        contentList = []
+        for number in range(int(liquorNum / 5)):
+            tmpList = [contents[(5 * number)], contents[(5 * number) + 1],
+                       contents[(5 * number) + 2], contents[(5 * number) + 3], contents[(5 * number) + 4]]
+            contentList.append(dict(zip(contentName, tmpList)))
+
+        return contentList
 
     def updateStockOnDB(liquorName: str) -> bool:
         # DB接続してクエリ発行
@@ -65,7 +76,6 @@ class liquorDao:
                 stock_update = int(liquorDict['STOCK_QUANTITY'])
                 liquorId = int(liquorDict['TOKEN_ID'])
 
-        print(stock_update)
         if stock_update - 1 < 0:
             liquorDao.updateReservabilityOnBC(liquorId)
             return False
@@ -74,7 +84,7 @@ class liquorDao:
             if stock_update - 1 == 0:
                 liquorDao.updateReservabilityOnBC(liquorId)
 
-            # DBの在庫数更新(あくまでも「予約」機能なので必要なし？)
+            # ? DBの在庫数更新(あくまでも「予約」機能なので必要なし？)
             # newQuantity = stock_update - 1
             # with engine.connect() as con:
             #     con.execute("update liquor_table set STOCK_QUANTITY={} where LIQUOR_NAME='{}' and TOKEN_ID={}".format(newQuantity, liquorName, liquorId))
@@ -96,11 +106,6 @@ class liquorDao:
         return liquors.functions.updateReservability(tokenId).transact({"from": liquorDao.userAccount})
 
     def addLiquor(liquorName: str, sellerName: str, isReservable: str, arrivalDay: str, stockQuantity: str):
-        print(liquorName)
-        print(sellerName)
-        print(isReservable)
-        print(arrivalDay)
-        print(stockQuantity)
 
         web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
         pathToAbi = "dao/Liquor.json"
