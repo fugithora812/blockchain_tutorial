@@ -88,9 +88,9 @@ function reserveLiquor(liquorName) {
                               <p>取り置き成功しました</p> \
                               <input type="button" id="reserveSuccess" value="OK" onclick="backTop()">`;
     } else {
-      reserveResult.innerHTML = `<p id="popTitle>FAILED...</p>\
+      reserveResult.innerHTML = `<p id="popTitle">FAILED...</p>\
                                   <p>取り置き失敗しました</p> \
-                                  <input type="button" id="reserveFaild" value="再試行" onclick="reserveLiquor('${liquorName}')">\
+                                  <input type="button" id="yesReserve" value="再試行" onclick="reserveLiquor('${liquorName}')">\
                                   <input type="button" id="noReserve" value="キャンセル" onclick="backTop()">`;
     }
   });
