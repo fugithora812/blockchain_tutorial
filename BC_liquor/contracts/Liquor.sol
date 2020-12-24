@@ -27,6 +27,7 @@ contract Liquor is ERC721Full {
         _contractOwner = msg.sender;
     }
 
+    // 指定したトークンIDのデータを読み出す
     function fetchLiquor(uint256 _tokenId)
         public
         view
@@ -41,9 +42,12 @@ contract Liquor is ERC721Full {
         return liquorResult;
     }
 
+    // すべてのデータを読み出す
     function fetchAllLiquors() public view returns (string[] memory) {
         string[] memory liquors = new string[](liquorCollection.length * 5);
         uint256 contentNumber = 0;
+
+        // 各種情報を商品ごとにリスト化して追加
         for (uint256 i = 0; i < liquorCollection.length; i++) {
             liquors[contentNumber] = liquorCollection[i].liquorName;
             contentNumber = contentNumber + 1;
@@ -72,6 +76,7 @@ contract Liquor is ERC721Full {
         }
     }
 
+    // 商品情報を追加する
     function addBlockToRegister(
         string memory liquorName,
         string memory sellerName,

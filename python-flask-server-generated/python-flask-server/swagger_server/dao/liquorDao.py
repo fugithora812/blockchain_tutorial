@@ -1,5 +1,4 @@
 from web3 import Web3
-# from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 import json
 
@@ -86,7 +85,7 @@ class liquorDao:
             if stock_update - 1 == 0:
                 liquorDao.updateReservabilityOnBC(liquorId)
 
-            # DBの在庫数更新(あくまでも「予約」機能なので必要なし？)
+            # ? DBの在庫数更新(あくまでも「予約」機能なので必要なし？)
             # newQuantity = stock_update - 1
             # with engine.connect() as con:
             #     con.execute("update liquor_table set STOCK_QUANTITY={} where LIQUOR_NAME='{}' and TOKEN_ID={}".format(newQuantity, liquorName, liquorId))
