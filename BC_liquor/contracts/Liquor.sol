@@ -11,7 +11,7 @@ contract Liquor is ERC721Full {
         string sellerName;
         string isReservable;
         string arrivalDay;
-        string reserveScore;
+        string stockQuantity;
     }
 
     Liquor[] private liquorCollection;
@@ -38,7 +38,7 @@ contract Liquor is ERC721Full {
         liquorResult[1] = liquorCollection[_tokenId].sellerName;
         liquorResult[2] = liquorCollection[_tokenId].isReservable;
         liquorResult[3] = liquorCollection[_tokenId].arrivalDay;
-        liquorResult[4] = liquorCollection[_tokenId].reserveScore;
+        liquorResult[4] = liquorCollection[_tokenId].stockQuantity;
         return liquorResult;
     }
 
@@ -61,7 +61,7 @@ contract Liquor is ERC721Full {
             liquors[contentNumber] = liquorCollection[i].arrivalDay;
             contentNumber = contentNumber + 1;
 
-            liquors[contentNumber] = liquorCollection[i].reserveScore;
+            liquors[contentNumber] = liquorCollection[i].stockQuantity;
             contentNumber = contentNumber + 1;
         }
         return liquors;
@@ -82,7 +82,7 @@ contract Liquor is ERC721Full {
         string memory sellerName,
         string memory isReservable,
         string memory arrivalDay,
-        string memory reserveScore
+        string memory stockQuantity
     ) public payable returns (bool) {
         uint256 newTokenId = liquorCollection.length;
         liquorCollection.push(
@@ -92,7 +92,7 @@ contract Liquor is ERC721Full {
                 sellerName,
                 isReservable,
                 arrivalDay,
-                reserveScore
+                stockQuantity
             )
         );
         emit Transfer(msg.sender, _contractOwner, liquorCollection.length);
