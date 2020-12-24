@@ -1,5 +1,4 @@
 from web3 import Web3
-# from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 import json
 
@@ -77,7 +76,6 @@ class liquorDao:
                 stock_update = int(liquorDict['STOCK_QUANTITY'])
                 liquorId = int(liquorDict['TOKEN_ID'])
 
-        print(stock_update)
         if stock_update - 1 < 0:
             liquorDao.updateReservabilityOnBC(liquorId)
             return False
@@ -86,7 +84,7 @@ class liquorDao:
             if stock_update - 1 == 0:
                 liquorDao.updateReservabilityOnBC(liquorId)
 
-            # DBの在庫数更新(あくまでも「予約」機能なので必要なし？)
+            # ? DBの在庫数更新(あくまでも「予約」機能なので必要なし？)
             # newQuantity = stock_update - 1
             # with engine.connect() as con:
             #     con.execute("update liquor_table set STOCK_QUANTITY={} where LIQUOR_NAME='{}' and TOKEN_ID={}".format(newQuantity, liquorName, liquorId))
@@ -99,9 +97,6 @@ class liquorDao:
         web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
         pathToAbi = "dao/Liquor.json"
 
-        print(type(tokenId))
-        print(tokenId)
-
         json_open = open(pathToAbi, "r")
         json_load = json.load(json_open)
 
@@ -111,11 +106,6 @@ class liquorDao:
         return liquors.functions.updateReservability(tokenId).transact({"from": liquorDao.userAccount})
 
     def addLiquor(liquorName: str, sellerName: str, isReservable: str, arrivalDay: str, stockQuantity: str):
-        print(liquorName)
-        print(sellerName)
-        print(isReservable)
-        print(arrivalDay)
-        print(stockQuantity)
 
         web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
         pathToAbi = "dao/Liquor.json"

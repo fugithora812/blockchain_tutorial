@@ -11,7 +11,7 @@ contract Liquor is ERC721Full {
         string sellerName;
         string isReservable;
         string arrivalDay;
-        string reserveScore;
+        string stockQuantity;
     }
 
     Liquor[] private liquorCollection;
@@ -27,6 +27,7 @@ contract Liquor is ERC721Full {
         _contractOwner = msg.sender;
     }
 
+    // 指定したトークンIDのデータを読み出す
     function fetchLiquor(uint256 _tokenId)
         public
         view
@@ -37,13 +38,16 @@ contract Liquor is ERC721Full {
         liquorResult[1] = liquorCollection[_tokenId].sellerName;
         liquorResult[2] = liquorCollection[_tokenId].isReservable;
         liquorResult[3] = liquorCollection[_tokenId].arrivalDay;
-        liquorResult[4] = liquorCollection[_tokenId].reserveScore;
+        liquorResult[4] = liquorCollection[_tokenId].stockQuantity;
         return liquorResult;
     }
 
+    // すべてのデータを読み出す
     function fetchAllLiquors() public view returns (string[] memory) {
         string[] memory liquors = new string[](liquorCollection.length * 5);
         uint256 contentNumber = 0;
+
+        // 各種情報を商品ごとにリスト化して追加
         for (uint256 i = 0; i < liquorCollection.length; i++) {
             liquors[contentNumber] = liquorCollection[i].liquorName;
             contentNumber = contentNumber + 1;
@@ -57,7 +61,7 @@ contract Liquor is ERC721Full {
             liquors[contentNumber] = liquorCollection[i].arrivalDay;
             contentNumber = contentNumber + 1;
 
-            liquors[contentNumber] = liquorCollection[i].reserveScore;
+            liquors[contentNumber] = liquorCollection[i].stockQuantity;
             contentNumber = contentNumber + 1;
         }
         return liquors;
@@ -72,12 +76,13 @@ contract Liquor is ERC721Full {
         }
     }
 
+    // 商品情報を追加する
     function addBlockToRegister(
         string memory liquorName,
         string memory sellerName,
         string memory isReservable,
         string memory arrivalDay,
-        string memory reserveScore
+        string memory stockQuantity
     ) public payable returns (bool) {
         uint256 newTokenId = liquorCollection.length;
         liquorCollection.push(
@@ -87,7 +92,7 @@ contract Liquor is ERC721Full {
                 sellerName,
                 isReservable,
                 arrivalDay,
-                reserveScore
+                stockQuantity
             )
         );
         emit Transfer(msg.sender, _contractOwner, liquorCollection.length);

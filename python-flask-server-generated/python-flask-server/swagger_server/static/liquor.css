@@ -50,7 +50,8 @@ h1 {
 }
 
 /* アクセス時の商品表示フィールド */
-#newArrive {
+#newArrive,
+#popularSeller {
   justify-content: center;
   align-items: center;
   width: 40%;
@@ -84,8 +85,9 @@ h1 {
   font-family: "Comic Sans MS";
 }
 
-/* 取り置き予約ポップアップ */
-#reservation {
+/* フェード時のポップアップ */
+#reservation,
+#toDisplayLiquor {
   justify-content: center;
   align-items: center;
   width: 40%;
@@ -121,20 +123,6 @@ h1 {
   visibility: hidden;
   z-index: 1;
 }
-
-/* 背景ぼかしのためのDIV */
-/* #blur {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-
-  width: 100%;
-  height: 100%;
-
-  background-color: rgba(164, 163, 160, 0.3);
-  visibility: visible;
-  z-index: 1;
-} */
 
 /* 要素を下から上に挿入する */
 @keyframes loadDisplay {

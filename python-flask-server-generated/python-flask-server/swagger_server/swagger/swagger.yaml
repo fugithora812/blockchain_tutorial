@@ -23,7 +23,7 @@ paths:
       x-swagger-router-controller: "controllers.default_controller"
 
   /liquors/add:
-    # ToDo:追加機能実装の際はpostに変える
+    # ToDo:本番運用の際はpostに変える
     get:
       summary: "酒類在庫追加API"
       operationId: "liquors_add"
@@ -54,7 +54,7 @@ paths:
             type: "string",
           },
           {
-            name: "reserveScore",
+            name: "stockQuantity",
             in: "query",
             description: "number of reservation",
             type: "string",
