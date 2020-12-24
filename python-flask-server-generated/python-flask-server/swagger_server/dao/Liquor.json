@@ -452,9 +452,9 @@
       "name": "fetchLiquor",
       "outputs": [
         {
-          "internalType": "string",
+          "internalType": "string[]",
           "name": "",
-          "type": "string"
+          "type": "string[]"
         }
       ],
       "payable": false,
@@ -474,21 +474,6 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_tokenId",
-          "type": "uint256"
-        }
-      ],
-      "name": "updateReservability",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {

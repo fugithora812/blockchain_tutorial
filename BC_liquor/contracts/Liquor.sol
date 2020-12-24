@@ -27,9 +27,18 @@ contract Liquor is ERC721Full {
         _contractOwner = msg.sender;
     }
 
-    function fetchLiquor(uint256 _tokenId) public view returns (string memory) {
-        string memory liquor = liquorCollection[_tokenId].liquorName;
-        return liquor;
+    function fetchLiquor(uint256 _tokenId)
+        public
+        view
+        returns (string[] memory)
+    {
+        string[] memory liquorResult = new string[](5);
+        liquorResult[0] = liquorCollection[_tokenId].liquorName;
+        liquorResult[1] = liquorCollection[_tokenId].sellerName;
+        liquorResult[2] = liquorCollection[_tokenId].isReservable;
+        liquorResult[3] = liquorCollection[_tokenId].arrivalDay;
+        liquorResult[4] = liquorCollection[_tokenId].reserveScore;
+        return liquorResult;
     }
 
     function fetchAllLiquors() public view returns (string[] memory) {
@@ -54,13 +63,14 @@ contract Liquor is ERC721Full {
         return liquors;
     }
 
-    function updateReservability(uint256 _tokenId) external {
-        if (stringToBool(liquorCollection[_tokenId].isReservable) == true) {
-            liquorCollection[_tokenId].isReservable = "true";
-        } else {
-            liquorCollection[_tokenId].isReservable = "false";
-        }
-    }
+    // ToDo: 在庫数のアップデート機能を追加
+    // function updateReservability(uint256 _tokenId) external {
+    //     if (stringToBool(liquorCollection[_tokenId].isReservable) == true) {
+    //         liquorCollection[_tokenId].isReservable = "true";
+    //     } else {
+    //         liquorCollection[_tokenId].isReservable = "false";
+    //     }
+    // }
 
     function addBlockToRegister(
         string memory liquorName,
@@ -82,83 +92,6 @@ contract Liquor is ERC721Full {
         );
         emit Transfer(msg.sender, _contractOwner, liquorCollection.length);
         return true;
-    }
-
-    // 文字列11個を結合する
-    function strConnect(
-        string memory str1,
-        string memory str2,
-        string memory str3,
-        string memory str4,
-        string memory str5,
-        string memory str6,
-        string memory str7,
-        string memory str8,
-        string memory str9,
-        string memory str10,
-        string memory str11
-    ) internal pure returns (string memory) {
-        bytes memory strbyte1 = bytes(str1);
-        bytes memory strbyte2 = bytes(str2);
-        bytes memory strbyte3 = bytes(str3);
-        bytes memory strbyte4 = bytes(str4);
-        bytes memory strbyte5 = bytes(str5);
-        bytes memory strbyte6 = bytes(str6);
-        bytes memory strbyte7 = bytes(str7);
-        bytes memory strbyte8 = bytes(str8);
-        bytes memory strbyte9 = bytes(str9);
-        bytes memory strbyte10 = bytes(str10);
-        bytes memory strbyte11 = bytes(str11);
-
-        bytes memory str = new bytes(strbyte1.length + strbyte2.length);
-
-        uint8 point = 0;
-
-        for (uint8 j = 0; j < strbyte1.length; j++) {
-            str[point] = strbyte1[j];
-            point++;
-        }
-        for (uint8 k = 0; k < strbyte2.length; k++) {
-            str[point] = strbyte2[k];
-            point++;
-        }
-        for (uint8 k = 0; k < strbyte3.length; k++) {
-            str[point] = strbyte3[k];
-            point++;
-        }
-        for (uint8 k = 0; k < strbyte4.length; k++) {
-            str[point] = strbyte4[k];
-            point++;
-        }
-        for (uint8 k = 0; k < strbyte5.length; k++) {
-            str[point] = strbyte5[k];
-            point++;
-        }
-        for (uint8 k = 0; k < strbyte6.length; k++) {
-            str[point] = strbyte6[k];
-            point++;
-        }
-        for (uint8 k = 0; k < strbyte7.length; k++) {
-            str[point] = strbyte7[k];
-            point++;
-        }
-        for (uint8 k = 0; k < strbyte8.length; k++) {
-            str[point] = strbyte8[k];
-            point++;
-        }
-        for (uint8 k = 0; k < strbyte9.length; k++) {
-            str[point] = strbyte9[k];
-            point++;
-        }
-        for (uint8 k = 0; k < strbyte10.length; k++) {
-            str[point] = strbyte10[k];
-            point++;
-        }
-        for (uint8 k = 0; k < strbyte11.length; k++) {
-            str[point] = strbyte11[k];
-            point++;
-        }
-        return string(str);
     }
 
     // boolをstringに変換する

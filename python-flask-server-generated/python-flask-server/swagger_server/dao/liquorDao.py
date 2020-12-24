@@ -7,7 +7,7 @@ import json
 class liquorDao:
     tokenId: int = 0
     userAccount: str = "0xF1F86752EBa4E4B206899e374E7F0d5514105481"
-    contractAddress: str = "0x062410aB18C7eea1Aa6226E8b79B414d20B1aAa3"
+    contractAddress: str = "0xb33746e22dDf12eBFcf999B2A210a431deb13E6E"
 
     def fetchLiquorFromBC(searchId: int) -> str:
         web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
