@@ -11,19 +11,21 @@ function getNewLiquors() {
     // ver1.1.0 全種類データ読み出し・表示
     let htmlArray = [];
     let displayQuantity = json.length;
-    let tempLiquors = [];
-    let displayLiquor = document.getElementById("newArrive");
 
+    // 重複判定用の配列tempLiquors
+    let tempLiquors = [];
+
+    let displayLiquor = document.getElementById("newArrive");
     for (let i = 0; i < displayQuantity; i++) {
       let newLiquor = json[i].liquorName;
 
       // 商品名の重複を排除
-      // if (!(tempLiquors.includes(newLiquor))) {
-      // tempLiquors.push(sellerName);
+      if (!(tempLiquors.includes(newLiquor))) {
+        tempLiquors.push(sellerName);
 
-      htmlArray[i] = `<li><a href="javascript:void(0);" onclick="fade(${i});" id="liquor${i}">${newLiquor}</a></li><br>`
-      displayLiquor.innerHTML += htmlArray[i];
-      // }
+        htmlArray[i] = `<li><a href="javascript:void(0);" onclick="fade(${i});" id="liquor${i}">${newLiquor}</a></li><br>`
+        displayLiquor.innerHTML += htmlArray[i];
+      }
     }
   });
 }
@@ -147,9 +149,7 @@ function getSellers() {
     let sellers = [];
 
     let displayLiquor = document.getElementById("popularSeller");
-    displayLiquor.innerHTML += "<ol></ol>"
     for (let i = 0; i < displayQuantity; i++) {
-      let newLiquor = json[i].liquorName;
       let sellerName = json[i].sellerName;
 
       // 店舗の重複を排除
