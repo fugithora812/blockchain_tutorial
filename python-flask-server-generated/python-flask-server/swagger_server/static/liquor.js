@@ -21,7 +21,7 @@ function getNewLiquors() {
 
       // 商品名の重複を排除
       if (!(tempLiquors.includes(newLiquor))) {
-        tempLiquors.push(sellerName);
+        tempLiquors.push(newLiquor);
 
         htmlArray[i] = `<li><a href="javascript:void(0);" onclick="fade(${i});" id="liquor${i}">${newLiquor}</a></li><br>`
         displayLiquor.innerHTML += htmlArray[i];
@@ -191,6 +191,7 @@ function sellerLiquor(clickedSeller) {
         displayLiquor.innerHTML += htmlArray[i];
       }
     }
+    displayLiquor.innerHTML += `<input type="button" id="backTop" value="TOP" onclick="backTop()">`
   });
 }
 
