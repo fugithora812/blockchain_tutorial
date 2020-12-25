@@ -8,30 +8,33 @@
     <title>LIQUOR.COM</title>
   </head>
   <body>
-    <h1>L I Q U O R . C O M</h1>
+    <!-- 背景ぼかし -->
+    <div id="blurBackground">
+      <h1>L I Q U O R . C O M</h1>
 
-    <!-- 検索ブロック -->
-    <div id="block">
-      <input type="text" id="wantThis" placeholder="商品検索">
-      <input type="button" id="search" value="SEARCH" onclick="searchLiquor()">
-    </div>
-
-    <!-- 検索結果を動的に表示する -->
-    <div id="searchResult"></div>
-
-    <!-- アクセス時に商品を表示する -->
-    <div id="block">
-      <div id="newArrive">
-        <p id=popTitle>~NEW ARRIVE~</p>
-        <div id="liquors"></div>
+      <!-- 検索ブロック -->
+      <div id="block">
+        <input type="text" id="wantThis" placeholder="商品検索">
+        <input type="button" id="search" value="SEARCH" onclick="searchLiquor()">
       </div>
-      <div id="popularSeller">
-        <p id=popTitle>~SELLERS~</p>
-        <div id="liquors"></div>
-      </div>
-    </div>
 
-    <!-- 商品名クリック時にフェード機能を起動 -->
-    <div id="fadeLayer"></div>
+      <!-- 検索結果を動的に表示する -->
+      <div id="searchResult"></div>
+
+      <!-- アクセス時に商品を表示する -->
+      <div id="block">
+        <div id="newArrive">
+          <p id=popTitle>~NEW ARRIVE~</p>
+          <div id="liquors"></div>
+        </div>
+        <div id="popularSeller">
+          <p id=popTitle>~SELLERS~</p>
+          <div id="liquors"></div>
+        </div>
+      </div>
+
+      <!-- 商品名クリック時にフェード機能を起動 -->
+      <div id="fadeLayer"></div>
+    </div>
   </body>
 </html>
