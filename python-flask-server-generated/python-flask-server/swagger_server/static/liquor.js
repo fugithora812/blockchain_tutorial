@@ -199,3 +199,7 @@ function sellerLiquor(clickedSeller) {
 // 画面ロード時に商品, 登録店舗を表示
 window.addEventListener("load", getNewLiquors);
 window.addEventListener("load", getSellers);
+window.onload = function () {
+  const loading = document.getElementById("loading");
+  loading.classList.add("loaded");
+};

@@ -56,7 +56,7 @@ paths:
           {
             name: "stockQuantity",
             in: "query",
-            description: "number of reservation",
+            description: "numbers of liquors stock",
             type: "string",
           },
         ]
