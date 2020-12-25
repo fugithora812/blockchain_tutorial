@@ -5,8 +5,8 @@ import json
 
 class liquorDao:
     tokenId: int = 0
-    userAccount: str = "0xF1F86752EBa4E4B206899e374E7F0d5514105481"
-    contractAddress: str = "0x74396086846D7Ea6830EE3F04EC510FdC9A94AB2"
+    userAccount: str = "0x8D78e14Dedaf4b75C7F6C3c0E5a54241a8A6D044"
+    contractAddress: str = "0x81A6FbE8C6977C4c640dF28f6310f3aAAc3D040b"
 
     # 指定したIDの商品１点を表示
     def fetchLiquorFromBC(searchId: int) -> str:
