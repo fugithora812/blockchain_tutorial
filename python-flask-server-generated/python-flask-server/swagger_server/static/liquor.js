@@ -1,8 +1,14 @@
 "use strict";
 
+// APIデータのロードが終了したときに発火させるイベント
+const apiLoaded = new CustomEvent("apiLoaded", {
+  bubbles: true, cancelable: false
+});
+
 // TOP画面に新しいお酒を数点表示する
 function getNewLiquors() {
   const url_get = 'http://localhost:8080/api/v1/liquors'
+  let displayLiquor = document.getElementById("newArrive");
 
   fetch(url_get).then(function (liquors) {
     // 読み込むデータをJSONに設定
@@ -15,7 +21,7 @@ function getNewLiquors() {
     // 重複判定用の配列tempLiquors
     let tempLiquors = [];
 
-    let displayLiquor = document.getElementById("newArrive");
+
     for (let i = 0; i < displayQuantity; i++) {
       let newLiquor = json[i].liquorName;
 
@@ -27,6 +33,8 @@ function getNewLiquors() {
         displayLiquor.innerHTML += htmlArray[i];
       }
     }
+    // ローディングアニメーションを非表示に
+    displayLiquor.dispatchEvent(apiLoaded);
   });
 }
 
@@ -37,6 +45,9 @@ function searchLiquor() {
   console.log(liquorName);
 
   const url_search = `http://localhost:8080/api/v1/liquors/search?liquorName=${liquorName}`;
+  let resultLiquor = document.getElementById("searchResult");
+  const loading = document.getElementById("loading");
+  loading.classList.remove("loaded");
 
   fetch(url_search).then(function (liquors) {
     // 読み込むデータをJSONに設定
@@ -50,7 +61,7 @@ function searchLiquor() {
       sellerName = json[i].sellerName;
     }
 
-    let resultLiquor = document.getElementById("searchResult");
+
     resultLiquor.innerHTML = `<div id="resultDiv"><p id="popTitle">RESULT</p><a href="javascript:void(0);" id="result" onclick="fadeResult();"></a></div>`;
 
     let liquor = document.getElementById("result");
@@ -62,7 +73,7 @@ function searchLiquor() {
       liquor.innerHTML += `${liquorName}`;
       notFound.innerHTML += `(取扱店：${sellerName})`
     }
-
+    resultLiquor.dispatchEvent(apiLoaded);
   });
 }
 
@@ -70,12 +81,16 @@ function searchLiquor() {
 function reserveLiquor(liquorName) {
   const url_reserve = `http://localhost:8080/api/v1/liquors/reserve?liquorName=${liquorName}`
 
+  let reserveResult = document.getElementById("reservation");
+  const loading = document.getElementById("loading");
+  loading.classList.remove("loaded");
+
   fetch(url_reserve).then(function (liquors) {
     // Promiseオブジェクトを1文字ずつテキスト化
     return liquors.text();
   }).then(function (booltxt) {
     // 処理結果の表示
-    let reserveResult = document.getElementById("reservation");
+
     if (booltxt[0] == "t") {
       // swal("SUCCESS", "取り置き成功しました", "success")
       reserveResult.innerHTML = `<p id="popTitle">SUCCESS</p>\
@@ -87,8 +102,8 @@ function reserveLiquor(liquorName) {
                                   <input type="button" id="yesReserve" value="Retry" onclick="reserveLiquor('${liquorName}')">\
                                   <input type="button" id="noReserve" value="Cancel" onclick="backTop()">`;
     }
+    reserveResult.dispatchEvent(apiLoaded);
   });
-
 }
 
 // 取り置きキャンセルのポップアップ表示しTOP画面に戻す
@@ -168,9 +183,12 @@ function sellerLiquor(clickedSeller) {
   // フェード処理
   let sellerLiquor = document.getElementById("fadeLayer");
   sellerLiquor.style.visibility = "visible";
-  sellerLiquor.innerHTML = `<div id='block'><div id='toDisplayLiquor'><p id="popTitle">SELLER: ${clickedSeller}</p></div></div>`;
 
   const url_get = 'http://localhost:8080/api/v1/liquors'
+
+  // ロード画面表示
+  const loading = document.getElementById("loading");
+  loading.classList.remove("loaded");
 
   fetch(url_get).then(function (liquors) {
     // 読み込むデータをJSONに設定
@@ -180,7 +198,9 @@ function sellerLiquor(clickedSeller) {
     let htmlArray = [];
     let displayQuantity = json.length;
 
+    sellerLiquor.innerHTML = `<div id='block'><div id='toDisplayLiquor'><p id="popTitle">SELLER: ${clickedSeller}</p></div></div>`;
     let displayLiquor = document.getElementById("toDisplayLiquor");
+
     for (let i = 0; i < displayQuantity; i++) {
       let sellerName = json[i].sellerName;
 
@@ -192,6 +212,9 @@ function sellerLiquor(clickedSeller) {
       }
     }
     displayLiquor.innerHTML += `<input type="button" id="backTop" value="TOP" onclick="backTop()">`
+
+    // ローディングアニメーションを非表示に
+    displayLiquor.dispatchEvent(apiLoaded);
   });
 }
 
@@ -199,7 +222,8 @@ function sellerLiquor(clickedSeller) {
 // 画面ロード時に商品, 登録店舗を表示
 window.addEventListener("load", getNewLiquors);
 window.addEventListener("load", getSellers);
-window.onload = function () {
+
+window.addEventListener("apiLoaded", function () {
   const loading = document.getElementById("loading");
   loading.classList.add("loaded");
-};
+});
