@@ -90,8 +90,7 @@ paths:
       x-swagger-router-controller: "controllers.default_controller"
 
   /liquors/reserve:
-    # ToDo: 本番運用ではpostに変える
-    get:
+    post:
       summary: "酒類在庫取り置きAPI"
       operationId: "liquors_reserve"
       parameters:

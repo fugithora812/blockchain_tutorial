@@ -85,7 +85,9 @@ function reserveLiquor(liquorName) {
   const loading = document.getElementById("loading");
   loading.classList.remove("loaded");
 
-  fetch(url_reserve).then(function (liquors) {
+  fetch(url_reserve, {
+    method: "POST"
+  }).then(function (liquors) {
     // Promiseオブジェクトを1文字ずつテキスト化
     return liquors.text();
   }).then(function (booltxt) {
