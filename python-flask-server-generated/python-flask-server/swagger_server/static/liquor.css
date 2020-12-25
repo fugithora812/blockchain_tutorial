@@ -33,7 +33,8 @@ h1 {
 #yesReserve,
 #noReserve,
 #reserveSuccess,
-#reserveFailed {
+#reserveFailed,
+#backTop {
   background-color: ghostwhite;
   border-radius: 20% 20%;
 
