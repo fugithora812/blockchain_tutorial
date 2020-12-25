@@ -51,7 +51,7 @@ function searchLiquor() {
     }
 
     let resultLiquor = document.getElementById("searchResult");
-    resultLiquor.innerHTML = `<div id="resultDiv"><p id="popTitle">SEARCH RESULT</p><a href="javascript:void(0);" id="result" onclick="fadeResult();"></a></div>`;
+    resultLiquor.innerHTML = `<div id="resultDiv"><p id="popTitle">RESULT</p><a href="javascript:void(0);" id="result" onclick="fadeResult();"></a></div>`;
 
     let liquor = document.getElementById("result");
     let notFound = document.getElementById("resultDiv");

@@ -1,6 +1,6 @@
 /* 背景画像の設定 */
 body {
-  background-image: url("./liquor3.jpg");
+  background-image: url("./liquor5.jpg");
   background-size: cover;
 }
 
@@ -10,7 +10,7 @@ h1 {
   font-family: "Monotype Corsiva";
   font-size: 48px;
   color: darkviolet;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.95);
   animation-name: loading;
   animation-duration: 2s;
 }
@@ -59,7 +59,7 @@ h1 {
   margin-top: 5%;
   margin-left: 1%;
   padding: 3%;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 1);
   border-radius: 50% 20% / 10% 40%;
   /* animation-name: loading;
   animation-duration: 2s; */
@@ -77,7 +77,7 @@ h1 {
   margin-top: 2%;
   margin-left: 1%;
   padding: 3%;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 1);
   border-radius: 50% 20% / 10% 40%;
   animation-name: loadDisplay;
   animation-duration: 1s;
